@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-bk%dv%#vk9begu*jchd=)o2_(3)(_(3c!m*at2tn_=g1+5al2k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['your-app-name.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['myproject-3-r2ko.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -74,16 +74,16 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 import os
+PORT = os.environ.get("PORT", "10000")  # Берем порт из окружения или 10000 по умолчанию
 import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),  # Берёт URL из Render
+        default=os.environ.get("DATABASE_URL"),  # Берете URL з Render
         conn_max_age=600,
         ssl_require=True
-    )
+    ),
 }
 
 # Password validation
