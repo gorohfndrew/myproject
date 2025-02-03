@@ -75,17 +75,28 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 import os
-PORT = os.environ.get("PORT", "10000")  # Берем порт из окружения или 10000 по умолчанию
 import dj_database_url
+from dotenv import load_dotenv
+
+# Загружаем переменные из .env
+load_dotenv()
+
+# Берем порт из окружения или 10000 по умолчанию
+PORT = os.environ.get("PORT", "10000")
+
+# Получаем URL базы данных из окружения
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is not set!")
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),  # Берете URL з Render
+        default=DATABASE_URL,  # Берем URL из переменной окружения
         conn_max_age=600,
         ssl_require=True
     ),
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
