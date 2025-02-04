@@ -102,7 +102,7 @@
                     <p>Цена: <strong>{{ ad.price }} грн.</strong></p>
                     <a href="{% url 'ad_detail' ad.id %}" class="btn">Подробнее</a>
                 </div>
-            {% empty %}
+                {% empty %}
                 <p>Объявлений пока нет.</p>
             {% endfor %}
         </div>
