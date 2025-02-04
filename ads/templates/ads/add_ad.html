@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавить объявление</title>
+    <!-- Загрузка тега для использования статических файлов -->
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
@@ -11,6 +13,7 @@
         <h1>Добавить объявление</h1>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            <!-- Отображение формы, переданной из views -->
             {{ form.as_p }}
             <button type="submit">Добавить</button>
         </form>
