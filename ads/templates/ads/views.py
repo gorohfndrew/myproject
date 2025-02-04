@@ -2,12 +2,25 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import path
 from rest_framework import viewsets
 from .models import Ad, Category
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import path
-from rest_framework import viewsets
-from .models import Ad, Category
 from .serializers import AdSerializer, CategorySerializer
 from .forms import AdForm
+from django.contrib.auth.decorators import login_required
+from .forms import AdForm
+
+@login_required
+def add_ad(request):
+    """Создание нового объявления"""
+    if request.method == 'POST':
+        form = AdForm(request.POST, request.FILES)
+        if form.is_valid():
+            ad = form.save(commit=False)
+            ad.user = request.user  # Присваиваем пользователя
+            ad.save()
+            return redirect('ads_list')  # Перенаправляем на список объявлений
+    else:
+        form = AdForm()
+
+    return render(request, 'ads/add_ad.html', {'form': form})
 
 # ✅ ПРАВИЛЬНО: Объявляем функцию ads_list
 def ads_list(request):
