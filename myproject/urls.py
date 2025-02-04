@@ -1,14 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from ads.views import ads_list  # <-- Импортируем ads_list правильно
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Маршрут для админки
-    path('', include('ads.urls')),  # Подключение маршрутов приложения ads
+    path('admin/', admin.site.urls),
+    path('', ads_list, name='ads_list'),  # <-- Добавляем представление напрямую
+    path('ads/', include('ads.urls')),  # <-- Подключаем маршруты приложения ads
 ]
-
-# Добавляем маршруты для статических и медиа-файлов (например, для изображений в объявлениях)
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
