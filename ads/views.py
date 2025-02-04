@@ -1,10 +1,8 @@
 from django.shortcuts import render
-from django.urls import path  
+from django.urls import path  # 
 from rest_framework import viewsets
 from .models import Ad, Category
-from .serializers import AdSerializer, CategorySerializer
-
- 
+from .serializers import AdSerializer, CategorySerializer  
 
 # ✅ ПРАВИЛЬНО: Объявляем функцию ads_list
 def ads_list(request):
