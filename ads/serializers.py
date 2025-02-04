@@ -1,6 +1,6 @@
 # mydona/serializers.py
 from rest_framework import serializers
-from .models import Ad, Category
+from .templates.ads.models import Ad, Category
 
 class AdSerializer(serializers.ModelSerializer):
     class Meta:
