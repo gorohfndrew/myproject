@@ -13,5 +13,5 @@ urlpatterns = [
     path('rules/', site_rules, name='site_rules'),  # Страница правил
     path('ad/<int:ad_id>/', ad_detail, name='ad_detail'),  # Страница одного объявления
     path('add/', add_ad, name='add_ad'),  # Форма добавления объявления
-    path('api/', include(router.urls)),  # Подключаем API
+    path('api/v1/', include(router.urls)),  # Подключаем API с префиксом для API версий
 ]
