@@ -1,17 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import path
+from django.urls import path, include  # include нужно для подключения REST API
 from rest_framework import viewsets
 from .models import Ad, Category
 from .serializers import AdSerializer, CategorySerializer
-from .forms import AdForm
-from django.contrib.auth.decorators import login_required
+from .forms import AdForm  # Импортируем форму AdForm
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login  # Импортируем login
+from django.contrib.auth.decorators import login_required
 
+# Представление для регистрации
 class RegisterView(CreateView):
     form_class = UserCreationForm
-    template_name = "register.html"  # Убедись, что этот шаблон существует
+    template_name = "register.html"  # Убедитесь, что этот шаблон существует
     success_url = "/"  # После успешной регистрации перенаправит на главную (ads_list.html)
 
     def form_valid(self, form):
@@ -55,6 +56,8 @@ urlpatterns = [
     path('rules/', site_rules, name='site_rules'),  # Страница правил
     path('ad/<int:ad_id>/', ad_detail, name='ad_detail'),  # Страница одного объявления
     path('add/', add_ad, name='add_ad'),  # Форма добавления объявления
+    path('register/', RegisterView.as_view(), name='register'),  # Страница регистрации
+
 ]
 
 # ViewSet для Category
