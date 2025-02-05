@@ -4,7 +4,7 @@ import dj_database_url
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")
 DEBUG = True
 ALLOWED_HOSTS = ['myproject-3-r2ko.onrender.com', 'localhost', '127.0.0.1', 'myproject-4wr3.onrender.com']
