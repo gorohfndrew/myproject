@@ -15,7 +15,7 @@ from django.views.generic.edit import CreateView
 class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = "ads/register.html"  # Убедитесь, что этот шаблон существует
-    success_url = "/" '/ads/list/' 
+    success_url = '/ads/list/'  # Путь к списку объявлений 
 
     def form_valid(self, form):
         response = super().form_valid(form)
