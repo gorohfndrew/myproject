@@ -8,6 +8,11 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login  # Импортируем login
 from django.contrib.auth.decorators import login_required
+from django.views import View
+
+class RegisterView(View):
+    def get(self, request):
+        return render(request, 'ads/register.html')  # Укажите правильный путь
 
 # Представление для регистрации
 class RegisterView(CreateView):
