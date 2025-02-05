@@ -12,7 +12,7 @@ from django.views import View
 
 class RegisterView(View):
     def get(self, request):
-        return render(request, 'ads/templates/ads/register.html')  # Укажите правильный путь
+        return render(request, 'ads/register.html')  # Укажите правильный путь
 
 # Представление для регистрации
 class RegisterView(CreateView):
