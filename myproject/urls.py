@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from ads.templates.ads.views import ads_list  # <-- Импортируем ads_list правильно
+from ads.views import ads_list  # <-- Импортируем ads_list правильно
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [

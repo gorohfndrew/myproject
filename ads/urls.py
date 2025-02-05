@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .templates.ads.views import AdViewSet, CategoryViewSet, ads_list, ad_detail, add_ad, site_rules, RegisterView  # Исправленный импорт
+from .views import AdViewSet, CategoryViewSet, ads_list, ad_detail, add_ad, site_rules, RegisterView
 
 # Создаём роутер и регистрируем ViewSet'ы
 router = DefaultRouter()
