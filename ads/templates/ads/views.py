@@ -5,6 +5,19 @@ from .models import Ad, Category
 from .serializers import AdSerializer, CategorySerializer
 from .forms import AdForm
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login  # Импортируем login
+
+class RegisterView(CreateView):
+    form_class = UserCreationForm
+    template_name = "register.html"  # Убедись, что этот шаблон существует
+    success_url = "/"  # После успешной регистрации перенаправит на главную (ads_list.html)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        login(self.request, self.object)  # Автоматический вход после регистрации
+        return response
 
 # Функция для добавления нового объявления
 @login_required
