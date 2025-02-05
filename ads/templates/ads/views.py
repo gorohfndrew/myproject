@@ -61,7 +61,7 @@ urlpatterns = [
     path('rules/', site_rules, name='site_rules'),  # Страница правил
     path('ad/<int:ad_id>/', ad_detail, name='ad_detail'),  # Страница одного объявления
     path('add/', add_ad, name='add_ad'),  # Форма добавления объявления
-    path('register/', RegisterView.as_view(), name='register'),  # Страница регистрации
+    path('register/', RegisterView.as_view(), name='register.'),  # Страница регистрации
 
 ]
 
