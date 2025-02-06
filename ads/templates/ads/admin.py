@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Ad, Category
+from ...models import Ad, Category
 
 @admin.register(Ad)
 class AdAdmin(admin.ModelAdmin):
