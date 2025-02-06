@@ -1,6 +1,18 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from django.utils.safestring import mark_safe
+from django.contrib import admin
+
+class AdAdmin(admin.ModelAdmin):
+    list_display = ('title', 'price', 'created_at', 'image_url')
+
+    def image_url(self, obj):
+        if obj.image:
+            return mark_safe(f'<img src="{obj.image.url}" width="100px" />')
+        return '-'
+
+    image_url.allow_tags = True
 
 User = get_user_model()
 
@@ -27,4 +39,5 @@ class Ad(models.Model):
     def image_url(self):
         if self.image:
             return self.image.url
-        return "/static/images/no-image.jpg"  # Путь к изображению по умолчанию
+        return "/static/images/no-image.jpg"  # Путь к изображению по умолчании
+    
