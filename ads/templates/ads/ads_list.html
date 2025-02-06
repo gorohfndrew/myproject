@@ -97,14 +97,14 @@
         <a href="{% url 'add_ad' %}" class="add-ad-btn">Добавить объявление</a>
         <a href="{% url 'register' %}">Регистрация</a>
 
-        <div class="ad-list">
-            {% if ads %}
-            {% for ad in ads %}
-                <div class="ad-card">
-                    <h3>{{ ad.title }}</h3>
-                    <p>Цена: <strong>{{ ad.price }} грн.</strong></p>
-                    <a href="{% url 'ad_detail' ad.id %}" class="btn">Подробнее</a>
-                </div>
+        <div class="ad-card">
+            {% if ad.image %}
+                <img src="{{ ad.image.url }}" alt="{{ ad.title }}" style="width: 100%; height: auto; border-radius: 5px;">
+            {% endif %}
+            <h3>{{ ad.title }}</h3>
+            <p>Цена: <strong>{{ ad.price }} грн.</strong></p>
+            <a href="{% url 'ad_detail' ad.id %}" class="btn">Подробнее</a>
+        </div>
             {% endfor %}
         {% else %}
             <p>Объявлений пока нет.</p>
