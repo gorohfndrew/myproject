@@ -121,3 +121,4 @@ urlpatterns = [
     path('add/', add_ad, name='add_ad'),  # Форма добавления объявления
     path('register/', RegisterView.as_view(), name='register'),  # Страница регистрации
 ]
+

@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Ad, Category
 
+@admin.register(Ad)
 class AdAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'created_at', 'image_url')
 
@@ -14,3 +15,4 @@ class AdAdmin(admin.ModelAdmin):
 
 admin.site.register(Ad, AdAdmin)
 admin.site.register(Category)
+

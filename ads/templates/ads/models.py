@@ -26,6 +26,7 @@ class Category(models.Model):
 # Объявление
 class Ad(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Владелец объявления
+    
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
