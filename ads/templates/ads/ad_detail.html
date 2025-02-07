@@ -1,15 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ ad.title }}</title>
+    {% load static %}
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
             padding: 0;
             text-align: center;
+            background: #f4f4f4;
         }
         .container {
             max-width: 600px;
@@ -40,10 +45,17 @@
 <body>
     <div class="container">
         <h1>{{ ad.title }}</h1>
-        <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
+        
+        {% if ad.image %}
+            <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
+        {% else %}
+            <img src="{% static 'images/no-image.jpg' %}" alt="Нет фото">
+        {% endif %}
+        
         <p><strong>Цена:</strong> {{ ad.price }} грн.</p>
         <p>{{ ad.description }}</p>
         <a href="{% url 'ads_list' %}" class="btn">Назад</a>
     </div>
 </body>
 </html>
+{% endblock %}

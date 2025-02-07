@@ -1,13 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавить объявление</title>
-    <!-- Загрузка статических файлов -->
     {% load static %}
     <style>
-        /* Общие стили для страницы */
+        /* Общие стили */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7fc;
@@ -16,7 +18,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
@@ -55,6 +57,10 @@
             margin-top: 5px;
         }
 
+        form input::placeholder, form textarea::placeholder {
+            color: #888;
+        }
+
         form button {
             background-color: #4CAF50;
             color: white;
@@ -66,6 +72,14 @@
 
         form button:hover {
             background-color: #45a049;
+        }
+
+        /* Стили для ошибок */
+        .errorlist {
+            color: red;
+            padding: 0;
+            margin: 0 0 10px;
+            list-style: none;
         }
 
         /* Стили для ссылки */
@@ -85,14 +99,25 @@
 <body>
     <div class="container">
         <h1>Добавить объявление</h1>
+        
+        {% if form.errors %}
+            <ul class="errorlist">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <!-- Отображение формы -->
             {{ form.as_p }}
             <button type="submit">Добавить</button>
         </form>
-        <!-- Ссылка для возврата к списку объявлений -->
+        
         <a href="{% url 'ads_list' %}">Назад к объявлениям</a>
     </div>
 </body>
 </html>
+{% endblock %}
