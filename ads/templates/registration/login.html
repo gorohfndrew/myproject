@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход в систему</title>
-    {% load static %}
+{% extends "base.html" %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+    <div class="login-container">
+        <h2>Вход в систему</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="id_username">Имя пользователя:</label>
+            <input type="text" name="username" id="id_username" required>
+            
+            <label for="id_password">Пароль:</label>
+            <input type="password" name="password" id="id_password" required>
+            
+            <button type="submit">Войти</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block custom_styles %}
     <style>
         * {
             box-sizing: border-box;
@@ -79,20 +93,4 @@
             transform: scale(0.95);
         }
     </style>
-</head>
-<body>
-    <div class="login-container">
-        <h2>Вход в систему</h2>
-        <form method="POST">
-            {% csrf_token %}
-            <label for="id_username">Имя пользователя:</label>
-            <input type="text" name="username" id="id_username" required>
-            
-            <label for="id_password">Пароль:</label>
-            <input type="password" name="password" id="id_password" required>
-            
-            <button type="submit">Войти</button>
-        </form>
-    </div>
-</body>
-</html>
+{% endblock %}

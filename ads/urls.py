@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import AdViewSet, CategoryViewSet, ads_list, ad_detail, add_ad, site_rules, RegisterView
+from ads import AdViewSet, CategoryViewSet, ads_list, ad_detail, add_ad, site_rules, about, RegisterView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -18,6 +18,7 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),  # Подключаем API с префиксом
     path('api-auth/', include('rest_framework.urls')),  # Авторизация в DRF
     path('register/', RegisterView.as_view(), name='register'),  # Страница регистрации
+    path('about/', about, name='about'),  # Додайте цей шлях для сторінки "Про нас"
 ]
 
 if settings.DEBUG:

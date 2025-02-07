@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from .models import Ad, Category
 from .serializers import AdSerializer, CategorySerializer
 from .forms import AdForm
+from django.shortcuts import render
 
 
 # Регистрация пользователей
@@ -66,3 +67,6 @@ def site_rules(request):
 def ad_detail(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
     return render(request, 'ads/ad_detail.html', {'ad': ad})
+
+def about(request):
+    return render(request, 'about.html')  # Переконайтеся, що у вас є шаблон about.html
