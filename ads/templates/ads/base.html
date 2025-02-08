@@ -117,6 +117,19 @@ a {
 a:hover {
     text-decoration: underline;
 }
+.video-container {
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали (если нужно) */
+    width: 100%;
+}
+
+.video-container video,
+.video-container iframe {
+    max-width: 100%; /* Чтобы видео не выходило за границы экрана */
+    height: auto;
+    border-radius: 10px; /* Скругление углов (по желанию) */
+}
     </style>
 </head>
 <body>

@@ -166,13 +166,12 @@
                             <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
                         {% endif %}
     
-                        <!-- Добавление видео -->
                         {% if ad.video %}
-                            <div class="video-preview">
-                                <video width="300" controls>
-                                    <source src="{{ ad.video.url }}" type="video/mp4">
-                                    Ваш браузер не поддерживает видео.
-                                </video>
+                        <div class="video-container">
+                            <video controls>
+                                <source src="{{ ad.video.url }}" type="video/mp4">
+                                Ваш браузер не поддерживает видео.
+                            </video>
                             </div>
                         {% endif %}
     
