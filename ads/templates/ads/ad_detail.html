@@ -46,14 +46,30 @@
     <div class="container">
         <h1>{{ ad.title }}</h1>
         
+        <!-- Отображение изображения -->
         {% if ad.image %}
             <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
         {% else %}
             <img src="{% static 'images/no-image.jpg' %}" alt="Нет фото">
         {% endif %}
         
+        <!-- Отображение цены -->
         <p><strong>Цена:</strong> {{ ad.price }} грн.</p>
+        
+        <!-- Отображение описания объявления -->
         <p>{{ ad.description }}</p>
+        
+        <!-- Отображение видео -->
+        {% if ad.video %}
+            <div class="video-container">
+                <video width="500" controls>
+                    <source src="{{ ad.video.url }}" type="video/mp4">
+                    Ваш браузер не поддерживает видео.
+                </video>
+            </div>
+        {% endif %}
+        
+        <!-- Кнопка "Назад" -->
         <a href="{% url 'ads_list' %}" class="btn">Назад</a>
     </div>
 </body>
