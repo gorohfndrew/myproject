@@ -151,9 +151,9 @@
         <a href="{% url 'add_ad' %}" class="add-ad-btn">Добавить объявление</a>
 
         {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}" class="logout-btn">Выход</a>
+            
         {% else %}
-            <a href="{% url 'login' %}" class="btn">Вход</a>
+            
             <a href="{% url 'register' %}" class="btn">Регистрация</a>
         {% endif %}
 

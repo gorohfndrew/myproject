@@ -13,7 +13,8 @@ router.register(r'categories', CategoryViewSet)
 
 # Определяем маршруты
 urlpatterns = [
-    path('', ads_list, name='ads_list'),  # Главная страница объявлений
+path('', ads_list, name='home'),  # Главная страница
+    path('ads/', ads_list, name='ads_list'),  # Страница объявлений
     path('rules/', site_rules, name='site_rules'),  # Страница правил
     path('ad/<int:ad_id>/', ad_detail, name='ad_detail'),  # Страница одного объявления
     path('add/', add_ad, name='add_ad'),  # Форма добавления объявления
