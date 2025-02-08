@@ -133,10 +133,10 @@
     <div class="banner">
         Добро пожаловать на сайт объявлений!
     </div>
-
+    
     <div class="container">
         <h1>Список объявлений</h1>
-
+    
         <!-- Сообщения -->
         {% if messages %}
             <ul class="messages">
@@ -145,18 +145,18 @@
                 {% endfor %}
             </ul>
         {% endif %}
-
+    
         <!-- Навигационные кнопки -->
         <a href="{% url 'site_rules' %}" class="btn">Правила сайта</a>
         <a href="{% url 'add_ad' %}" class="add-ad-btn">Добавить объявление</a>
-
+    
         {% if user.is_authenticated %}
             
         {% else %}
             
             <a href="{% url 'register' %}" class="btn">Регистрация</a>
         {% endif %}
-
+    
         <!-- Список объявлений -->
         <div class="ad-list">
             {% if ads %}
@@ -165,6 +165,17 @@
                         {% if ad.image %}
                             <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
                         {% endif %}
+    
+                        <!-- Добавление видео -->
+                        {% if ad.video %}
+                            <div class="video-preview">
+                                <video width="300" controls>
+                                    <source src="{{ ad.video.url }}" type="video/mp4">
+                                    Ваш браузер не поддерживает видео.
+                                </video>
+                            </div>
+                        {% endif %}
+    
                         <h3>{{ ad.title }}</h3>
                         <p>Цена: <strong>{{ ad.price }} грн.</strong></p>
                         <a href="{% url 'ad_detail' ad.id %}" class="btn">Подробнее</a>
