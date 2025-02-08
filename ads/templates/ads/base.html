@@ -59,6 +59,64 @@ footer {
     color: white;
     width: 100%;
 }
+/* Центрирование контейнера */
+.container {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    margin: 20px auto;
+}
+
+/* Общие стили для формы */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form input, form textarea, form button {
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Кнопка */
+form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+/* Ошибки */
+.errorlist {
+    color: red;
+    list-style: none;
+}
+
+/* Ссылка */
+a {
+    text-align: center;
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 15px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
     </style>
 </head>
 <body>

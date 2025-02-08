@@ -33,6 +33,8 @@ class Ad(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='ads/', blank=True, null=True)  # Для изображений
     created_at = models.DateTimeField(auto_now_add=True)
+    video = models.FileField(upload_to="videos/", blank=True, null=True)  # Поле для видео
+
 
     def __str__(self):
         return self.title
