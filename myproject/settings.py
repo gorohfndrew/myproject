@@ -3,6 +3,7 @@ from pathlib import Path
 import environ
 import dj_database_url
 import logging
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -62,9 +63,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
-
+load_dotenv()
 # Загружаем переменные из .env
-DATABASE_URL = env("DATABASE_URL")
+DATABASE_URL = os.getenv('DATABASE_URL')
+
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is not set!")
 
