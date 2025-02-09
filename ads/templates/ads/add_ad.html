@@ -48,10 +48,17 @@
                 {{ form.image }}
             </div>
 
-            <!-- Видео -->
+            <!-- Видео URL -->
             <div class="form-group">
-                <label for="id_video">Відео:</label>
+                <label for="id_video">Відео (URL):</label>
                 {{ form.video }}
+            </div>
+
+            <!-- Загрузка видео -->
+            <div class="form-group">
+                <label for="id_video_upload">Завантажити відео:</label>
+                {{ form.video_upload }}
+                <p class="help-text">Завантажте відео файл. (максимальний розмір: 100MB)</p>
             </div>
 
             <!-- Премиум -->
@@ -64,12 +71,6 @@
             <div class="form-group">
                 <label for="id_premium_until">Преміум до:</label>
                 {{ form.premium_until }}
-            </div>
-
-            <!-- Загрузка видео -->
-            <div class="form-group">
-                <label for="id_video_upload">Завантажити відео:</label>
-                {{ form.video_upload }}
             </div>
 
             <!-- Кнопка отправки -->
@@ -148,5 +149,12 @@
         list-style: none;
         padding: 0;
         margin-bottom: 20px;
+    }
+
+    /* Помощь для загрузки видео */
+    .help-text {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
     }
 </style>
