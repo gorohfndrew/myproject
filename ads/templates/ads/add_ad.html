@@ -17,13 +17,13 @@
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            
+
             <!-- Категория -->
             <div class="form-group">
                 <label for="id_category">Категорія:</label>
                 {{ form.category }}
             </div>
-            
+
             <!-- Название объявления -->
             <div class="form-group">
                 <label for="id_title">Назва:</label>
@@ -48,16 +48,10 @@
                 {{ form.image }}
             </div>
 
-            <!-- Видео URL -->
-            <div class="form-group">
-                <label for="id_video">Відео (URL):</label>
-                {{ form.video }}
-            </div>
-
             <!-- Загрузка видео -->
             <div class="form-group">
                 <label for="id_video_upload">Завантажити відео:</label>
-                {{ form.video_upload }}
+                <input type="file" name="video_upload" id="id_video_upload" accept="video/*">
                 <p class="help-text">Завантажте відео файл. (максимальний розмір: 100MB)</p>
             </div>
 
