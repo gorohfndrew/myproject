@@ -1,12 +1,22 @@
 from django.contrib import admin
 from .models import Ad, Category
+from django.utils.html import format_html
 
 # Настройки для модели Ad
 class AdAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'price', 'created_at')  # Какие поля показывать в списке
+    list_display = ('title', 'description', 'price', 'created_at', 'video_preview')  # Добавили 'video_preview'
     search_fields = ('title', 'description')  # Возможность поиска по этим полям
-    list_filter = ('created_at',)  # Возможность фильтровать по этим полям
-    ordering = ('-created_at',)  # Сортировка по полю 'created_at' (от новых к старым)
+    list_filter = ('created_at',)  # Фильтрация по дате создания
+    ordering = ('-created_at',)  # Сортировка по дате (новые сверху)
+
+    def video_preview(self, obj):
+        if obj.video:  # Проверяем, есть ли видео
+            return format_html(
+                f'<video width="100" controls><source src="{obj.video.url}" type="video/mp4"></video>'
+            )
+        return "Нет видео"
+
+    video_preview.short_description = "Видео"
 
 # Настройки для модели Category
 class CategoryAdmin(admin.ModelAdmin):
@@ -14,6 +24,3 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)  # Возможность поиска по имени категории
 
 # Регистрируем модели и их классы в админке
-admin.site.register(Ad, AdAdmin)
-admin.site.register(Category, CategoryAdmin)
-# Register your models here.

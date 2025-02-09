@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import Ad, Category
 
-@admin.register(Ad)  # Регистрируем модель с помощью декоратора
 class AdAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'is_premium', 'created_at', 'image_url', 'video_preview')
     list_filter = ('is_premium',)
@@ -23,5 +22,7 @@ class AdAdmin(admin.ModelAdmin):
 
     video_preview.short_description = "Видео"
 
-# Регистрация категории
-admin.site.register(Category)
+# Проверяем, зарегистрирована ли модель
+if not admin.site.is_registered(Ad):
+    admin.site.register(Ad, AdAdmin)
+
