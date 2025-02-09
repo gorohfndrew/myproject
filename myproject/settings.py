@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import environ
 import dj_database_url
+import logging
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,11 +12,15 @@ env_file = BASE_DIR / '.env'  # Указываем путь к .env файлу
 environ.Env.read_env(env_file)  # Загрузка переменных окружения из файла .env
 
 # Читаем переменные с использованием environ
-SECRET_KEY = env("SECRET_KEY", default=None)  # Лучше не использовать "fallback-secret-key", а оставлять пустым для безопасности
+SECRET_KEY = env("SECRET_KEY", default=None)  
 if not SECRET_KEY:
-    raise ValueError("SECRET_KEY is not set in the environment variables.")  # Подсветим ошибку, если переменная отсутствует
+    raise ValueError("SECRET_KEY is not set in the environment variables.")  
+logging.basicConfig(level=logging.DEBUG)
+logging.debug(f"SECRET_KEY: {SECRET_KEY}")
+
 DEBUG = env.bool("DEBUG", default=True)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,7 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework',  
+    'rest_framework',
     'ads',  
 ]
 
@@ -59,11 +64,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
 # Загружаем переменные из .env
-
-
-PORT = os.environ.get("PORT", "10000")
-
-DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = env("DATABASE_URL")
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is not set!")
 
@@ -82,11 +83,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
-LANGUAGE_CODE = 'ru'
+
 LANGUAGES = [
     ('ru', 'Russian'),
     ('en', 'English'),
@@ -100,8 +101,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Настройки медиа
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-LOGIN_REDIRECT_URL = '/ads/'  # Перенаправлення на сторінку з оголошеннями
+LOGIN_REDIRECT_URL = '/ads/'  
 
 # Настройки DRF
 REST_FRAMEWORK = {
