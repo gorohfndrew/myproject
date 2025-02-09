@@ -111,6 +111,7 @@
             padding: 15px;
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            transition: border 0.3s, background-color 0.3s;
         }
 
         .ad-card h3 {
@@ -127,6 +128,23 @@
             height: auto;
             border-radius: 5px;
         }
+
+        /* Премиум-объявления */
+        .premium {
+            border: 2px solid gold; /* Золотая окантовка */
+            background-color: #fff8e1; /* Легкий золотистый фон */
+        }
+
+        .premium .premium-label {
+            background-color: #ffcc00;
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -151,9 +169,8 @@
         <a href="{% url 'add_ad' %}" class="add-ad-btn">Добавить объявление</a>
     
         {% if user.is_authenticated %}
-            
+            <!-- Площадка для кнопки выхода, если нужно -->
         {% else %}
-            
             <a href="{% url 'register' %}" class="btn">Регистрация</a>
         {% endif %}
     
@@ -161,22 +178,27 @@
         <div class="ad-list">
             {% if ads %}
                 {% for ad in ads %}
-                    <div class="ad-card">
+                    <div class="ad-card {% if ad.is_premium and ad.is_premium_active %}premium{% endif %}">
                         {% if ad.image %}
                             <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
                         {% endif %}
     
                         {% if ad.video %}
-                        <div class="video-container">
-                            <video controls>
-                                <source src="{{ ad.video.url }}" type="video/mp4">
-                                Ваш браузер не поддерживает видео.
-                            </video>
+                            <div class="video-container">
+                                <video controls>
+                                    <source src="{{ ad.video.url }}" type="video/mp4">
+                                    Ваш браузер не поддерживает видео.
+                                </video>
                             </div>
                         {% endif %}
     
                         <h3>{{ ad.title }}</h3>
                         <p>Цена: <strong>{{ ad.price }} грн.</strong></p>
+
+                        {% if ad.is_premium and ad.is_premium_active %}
+                            <span class="premium-label">Премиум</span>
+                        {% endif %}
+                        
                         <a href="{% url 'ad_detail' ad.id %}" class="btn">Подробнее</a>
                     </div>
                 {% endfor %}

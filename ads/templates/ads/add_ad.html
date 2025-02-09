@@ -2,10 +2,11 @@
 
 {% block content %}
     <div class="container">
-        <h1>Добавить объявление</h1>
+        <h1>Додати оголошення</h1>
 
+        <!-- Вывод ошибок формы -->
         {% if form.errors %}
-            <ul class="errorlist">
+            <ul class="errorlist" style="color: red;">
                 {% for field, errors in form.errors.items %}
                     {% for error in errors %}
                         <li>{{ error }}</li>
@@ -16,12 +17,136 @@
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
-            <label for="video">Загрузить видео:</label>
-            <input type="file" name="video" accept="video/*">
-            <button type="submit">Добавить</button>
+            
+            <!-- Категория -->
+            <div class="form-group">
+                <label for="id_category">Категорія:</label>
+                {{ form.category }}
+            </div>
+            
+            <!-- Название объявления -->
+            <div class="form-group">
+                <label for="id_title">Назва:</label>
+                {{ form.title }}
+            </div>
+
+            <!-- Описание -->
+            <div class="form-group">
+                <label for="id_description">Опис:</label>
+                {{ form.description }}
+            </div>
+
+            <!-- Цена -->
+            <div class="form-group">
+                <label for="id_price">Ціна:</label>
+                {{ form.price }}
+            </div>
+
+            <!-- Изображение -->
+            <div class="form-group">
+                <label for="id_image">Зображення:</label>
+                {{ form.image }}
+            </div>
+
+            <!-- Видео -->
+            <div class="form-group">
+                <label for="id_video">Відео:</label>
+                {{ form.video }}
+            </div>
+
+            <!-- Премиум -->
+            <div class="form-group">
+                <label for="id_is_premium">Преміум:</label>
+                {{ form.is_premium }}
+            </div>
+
+            <!-- Премиум до -->
+            <div class="form-group">
+                <label for="id_premium_until">Преміум до:</label>
+                {{ form.premium_until }}
+            </div>
+
+            <!-- Загрузка видео -->
+            <div class="form-group">
+                <label for="id_video_upload">Завантажити відео:</label>
+                {{ form.video_upload }}
+            </div>
+
+            <!-- Кнопка отправки -->
+            <button type="submit" class="btn">Додати</button>
         </form>
 
-        <a href="{% url 'ads_list' %}">Назад к объявлениям</a>
+        <!-- Ссылка назад -->
+        <a href="{% url 'ads_list' %}" class="back-btn">Назад до оголошень</a>
     </div>
 {% endblock %}
+
+<style>
+    .container {
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 20px;
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+        margin: 20px auto;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .form-group input, .form-group textarea, .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .form-group input[type="file"] {
+        padding: 5px;
+    }
+
+    .btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        padding: 10px 20px;
+        margin-top: 20px;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .btn:hover {
+        background-color: #45a049;
+    }
+
+    .back-btn {
+        display: inline-block;
+        margin-top: 15px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .back-btn:hover {
+        text-decoration: underline;
+    }
+
+    /* Ошибки */
+    .errorlist {
+        color: red;
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+</style>

@@ -1,14 +1,21 @@
 import os
 from pathlib import Path
+import environ  # Используем только environ для загрузки переменных
 import dj_database_url
-from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv()
-SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")
-DEBUG = True
-ALLOWED_HOSTS = ['myproject-3-r2ko.onrender.com', 'localhost', '127.0.0.1', 'myproject-4wr3.onrender.com']
 
+# Создаём экземпляр environ и загружаем переменные окружения
+env = environ.Env()
+environ.Env.read_env()  # Загружаем переменные из .env
+
+# Читаем переменные с использованием environ
+SECRET_KEY = env("SECRET_KEY", default=None)  # Лучше не использовать "fallback-secret-key", а оставлять пустым для безопасности
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY is not set in the environment variables.")  # Подсветим ошибку, если переменная отсутствует
+
+DEBUG = env.bool("DEBUG", default=True)
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,7 +59,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
 # Загружаем переменные из .env
-load_dotenv()
+
 
 PORT = os.environ.get("PORT", "10000")
 

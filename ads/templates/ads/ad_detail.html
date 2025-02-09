@@ -16,6 +16,7 @@
             text-align: center;
             background: #f4f4f4;
         }
+
         .container {
             max-width: 600px;
             margin: auto;
@@ -23,22 +24,43 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid gold; /* Золотая окантовка */
         }
+
         img {
             max-width: 100%;
             border-radius: 10px;
         }
+
         .btn {
             display: inline-block;
             padding: 10px 15px;
-            background: #007bff;
+            background: #ffcc00; /* Золотой цвет кнопки */
             color: white;
             text-decoration: none;
             border-radius: 5px;
             margin-top: 20px;
+            transition: background 0.3s;
         }
+
         .btn:hover {
-            background: #0056b3;
+            background: #e6a800; /* Темный золотой при наведении */
+        }
+
+        /* Для видео */
+        .video-container {
+            margin: 20px 0;
+        }
+
+        .premium-label {
+            display: inline-block;
+            background-color: #ffcc00; /* Золотой цвет */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 18px;
         }
     </style>
 </head>
@@ -58,6 +80,11 @@
         
         <!-- Отображение описания объявления -->
         <p>{{ ad.description }}</p>
+        
+        <!-- Проверка, является ли объявление премиум -->
+        {% if ad.is_premium %}
+            <span class="premium-label">Премиум</span>
+        {% endif %}
         
         <!-- Отображение видео -->
         {% if ad.video %}
