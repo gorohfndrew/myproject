@@ -7,13 +7,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Создаём экземпляр environ и загружаем переменные окружения
 env = environ.Env()
-environ.Env.read_env()  # Загружаем переменные из .env
+env_file = BASE_DIR / '.env'  # Указываем путь к .env файлу
+environ.Env.read_env(env_file)  # Загрузка переменных окружения из файла .env
 
 # Читаем переменные с использованием environ
 SECRET_KEY = env("SECRET_KEY", default=None)  # Лучше не использовать "fallback-secret-key", а оставлять пустым для безопасности
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY is not set in the environment variables.")  # Подсветим ошибку, если переменная отсутствует
-
 DEBUG = env.bool("DEBUG", default=True)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 INSTALLED_APPS = [
