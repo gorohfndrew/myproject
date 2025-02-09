@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-import environ  # Используем только environ для загрузки переменных
+import django_environ as environ
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
