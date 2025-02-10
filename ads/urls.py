@@ -5,6 +5,8 @@ from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from ads.views import AdViewSet, CategoryViewSet, ads_list, ad_detail, add_ad, site_rules, about, RegisterView
 
+
+
 # Создаём роутер и регистрируем ViewSet'ы
 router = DefaultRouter()
 router.register(r'ads', AdViewSet)

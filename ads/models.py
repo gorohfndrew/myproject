@@ -22,7 +22,8 @@ class Ad(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='ads/', blank=True, null=True)  # Для изображений
     created_at = models.DateTimeField(auto_now_add=True)
-    video = models.FileField(upload_to="videos/", blank=True, null=True)  # Поле для видео
+    video = models.FileField(upload_to='ads_videos/', null=True, blank=True)  # Добавляем поле для видео
+
     is_premium = models.BooleanField(default=False)  # Премиум-объявления
     premium_until = models.DateTimeField(null=True, blank=True)  # Срок действия премиума
 
@@ -38,9 +39,17 @@ class Ad(models.Model):
         """Проверка, активен ли статус премиум."""
         return bool(self.premium_until and self.premium_until > timezone.now())
 
-# Настройка отображения изображений в админке
+    def video_tag(self):
+        """Метод для отображения видео в админке."""
+        if self.video:
+            return mark_safe(f'<video width="100" controls><source src="{self.video.url}" type="video/mp4">Ваш браузер не поддерживает видео.</video>')
+        return 'Нет видео'
+
+    video_tag.short_description = 'Видео'  # Переименовываем заголовок в админке
+
+# Настройка отображения изображений и видео в админке
 class AdAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'created_at', 'image_tag', 'is_premium', 'is_premium_active', 'premium_until')
+    list_display = ('title', 'price', 'created_at', 'image_tag', 'video_tag', 'is_premium', 'is_premium_active', 'premium_until')
 
     def image_tag(self, obj):
         if obj.image:
@@ -52,6 +61,4 @@ class AdAdmin(admin.ModelAdmin):
     # Фильтрация по премиум-объявлениям в админке
     list_filter = ('is_premium',)
 
-# Регистрируем в админке
-admin.site.register(Ad, AdAdmin)
-admin.site.register(Category)
+

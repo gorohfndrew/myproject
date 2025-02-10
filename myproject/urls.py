@@ -5,6 +5,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views  # Импортируем представления для логина и логаута
+from django.conf.urls.static import static
+
 
 # Создаём роутер и регистрируем ViewSet'ы
 router = DefaultRouter()

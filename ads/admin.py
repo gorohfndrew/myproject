@@ -22,7 +22,6 @@ class AdAdmin(admin.ModelAdmin):
 
     video_preview.short_description = "Видео"
 
-# Проверяем, зарегистрирована ли модель
-if not admin.site.is_registered(Ad):
-    admin.site.register(Ad, AdAdmin)
-
+# Регистрируем модель Ad в админке
+admin.site.register(Ad, AdAdmin)  # Оставляем здесь!
+admin.site.register(Category)
