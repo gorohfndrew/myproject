@@ -8,7 +8,8 @@ User = get_user_model()
 
 # Категория объявления
 class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=255)
+    description = models.TextField()  # Добавлено описание категории
 
     def __str__(self):
         return self.name
@@ -17,19 +18,25 @@ class Category(models.Model):
 class Ad(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Владелец объявления
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+
     title = models.CharField(max_length=255)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField()  # Описание объявления
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     image = models.ImageField(upload_to='ads/', blank=True, null=True)  # Для изображений
     created_at = models.DateTimeField(auto_now_add=True)
     video = models.FileField(upload_to='ads_videos/', null=True, blank=True)  # Добавляем поле для видео
 
+    # Дополнительные поля для статусов
+    is_boosted = models.BooleanField(default=False)
+    is_standard = models.BooleanField(default=False)
+    is_popular = models.BooleanField(default=False)
     is_premium = models.BooleanField(default=False)  # Премиум-объявления
     premium_until = models.DateTimeField(null=True, blank=True)  # Срок действия премиума
 
     def __str__(self):
         return self.title
 
+    # Настройка отображения изображений и видео в админке
     def image_url(self):
         if self.image:
             return self.image.url
@@ -47,7 +54,7 @@ class Ad(models.Model):
 
     video_tag.short_description = 'Видео'  # Переименовываем заголовок в админке
 
-# Настройка отображения изображений и видео в админке
+# Админка для работы с объявлениями
 class AdAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'created_at', 'image_tag', 'video_tag', 'is_premium', 'is_premium_active', 'premium_until')
 
@@ -59,6 +66,7 @@ class AdAdmin(admin.ModelAdmin):
     image_tag.short_description = "Изображение"
 
     # Фильтрация по премиум-объявлениям в админке
-    list_filter = ('is_premium',)
+    list_filter = ('is_premium', 'is_boosted', 'is_standard', 'is_popular')
 
+# Регистрация модели и админки
 

@@ -4,7 +4,7 @@ from .models import Ad
 class AdForm(forms.ModelForm):
     class Meta:
         model = Ad
-        fields = ['category', 'title', 'description', 'price', 'image', 'video', 'is_premium', 'premium_until']
+        fields = ['category', 'title', 'description', 'price', 'image', 'video', 'is_premium', 'premium_until','is_standard', 'is_popular', 'is_boosted']
         widgets = {
             'premium_until': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'description': forms.Textarea(attrs={'rows': 4, 'cols': 40}),

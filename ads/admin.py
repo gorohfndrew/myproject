@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from .models import Ad, Category
 
 class AdAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'is_premium', 'created_at', 'image_url', 'video_preview')
+    list_display = ('title', 'price', 'is_premium', 'created_at', 'image_url', 'video_preview','is_standard', 'is_popular', 'is_boosted')
     list_filter = ('is_premium',)
 
     # Отображение изображения

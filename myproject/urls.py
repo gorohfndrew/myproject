@@ -1,11 +1,15 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from ads.views import AdViewSet, CategoryViewSet, ads_list, ad_detail, add_ad, site_rules, about, RegisterView
+from ads.views import AdViewSet, CategoryViewSet, ads_list, ad_detail, add_ad, site_rules, about,privacy_policy, RegisterView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views  # Импортируем представления для логина и логаута
 from django.conf.urls.static import static
+from ads import views
+
+
+
 
 
 # Создаём роутер и регистрируем ViewSet'ы
@@ -27,7 +31,9 @@ path('', ads_list, name='home'),  # Главная страница
     path('admin/', admin.site.urls),  # Страница администрирования
     path('login/', auth_views.LoginView.as_view(), name='login'),  # Страница входа
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # Страница выхода
+     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),  # Страница политики конфиденциальности
 ]
+
 
 # Для работы с медиа-файлами в режиме разработки
 if settings.DEBUG:

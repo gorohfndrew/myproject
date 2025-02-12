@@ -11,6 +11,8 @@ from django.core.paginator import Paginator
 from .models import Ad, Category
 from .serializers import AdSerializer, CategorySerializer
 from .forms import AdForm
+from django.shortcuts import render
+
 
 # Регистрация пользователей
 class RegisterView(CreateView):
@@ -81,3 +83,6 @@ def about(request):
 def ads_list(request):
     ads = Ad.objects.all()
     return render(request, 'ads/ads_list.html', {'ads': ads})
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')

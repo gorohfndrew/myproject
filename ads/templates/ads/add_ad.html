@@ -47,10 +47,22 @@
                 <input type="file" name="video" id="id_video" accept="video/*">
                 <p class="help-text">Завантажте відео файл. (максимальний розмір: 100MB)</p>
             </div>
+            <div class="form-group">
+                <label for="id_is_standard">Стандарт:</label>
+                {{ form.is_standard }}
+            </div>
+            <div class="form-group">
+                <label for="id_is_popular">Популярний:</label>
+                {{ form.is_popular }}
+            </div>
 
             <div class="form-group">
                 <label for="id_is_premium">Преміум:</label>
                 {{ form.is_premium }}
+            </div>
+            <div class="form-group">
+                <label for="id_is_boosted">Підняття:</label>
+                {{ form.is_boosted }}
             </div>
 
             <div class="form-group">

@@ -29,6 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
+    'django_celery_results',
+
 
     'rest_framework',
     'ads',  
@@ -109,6 +112,15 @@ FILE_UPLOAD_HANDLERS = [
     "django.core.files.uploadhandler.MemoryFileUploadHandler",
     "django.core.files.uploadhandler.TemporaryFileUploadHandler",
 ]
+
+env = environ.Env()
+environ.Env.read_env()  # Чтение .env файла
+
+# Настройки Celery из .env файла
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='sqla+postgresql://username:password@localhost/dbname')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND', default='django-db')
+CELERY_ACCEPT_CONTENT = env.list('CELERY_ACCEPT_CONTENT', default='json')
+CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER', default='json')
 
 # Поддержка загрузки больших файлов
 DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100 MB

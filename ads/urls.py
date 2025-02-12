@@ -3,7 +3,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
-from ads.views import AdViewSet, CategoryViewSet, ads_list, ad_detail, add_ad, site_rules, about, RegisterView
+from . import views 
+from ads.views import AdViewSet, CategoryViewSet, ads_list, ad_detail, add_ad, site_rules, about, privacy_policy, RegisterView
 
 
 
@@ -12,7 +13,6 @@ router = DefaultRouter()
 router.register(r'ads', AdViewSet)
 router.register(r'categories', CategoryViewSet)
 
-# Определяем маршруты
 urlpatterns = [
     path('admin/', admin.site.urls),  # Админка
     path('', ads_list, name='ads_list'),  # Главная страница объявлений
@@ -22,7 +22,8 @@ urlpatterns = [
     path('add/', add_ad, name='add_ad'),  # Форма добавления объявления
     path('register/', RegisterView.as_view(), name='register'),  # Страница регистрации
     path('about/', about, name='about'),  # Страница "Про нас"
-    
+    path('privacy-policy/', views.privacy_policy, name='privacy_policy'),  # Страница политики конфиденциальности
+
     # Подключение API
     path('api/v1/', include(router.urls)),  # Подключаем API с префиксом
     path('api-auth/', include('rest_framework.urls')),  # Авторизация в DRF
