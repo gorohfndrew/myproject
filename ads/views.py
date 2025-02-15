@@ -14,6 +14,7 @@ from .forms import AdForm
 from django.shortcuts import render
 from .models import Ad
 from django.http import JsonResponse
+from django.views.generic import ListView
 
 
 
@@ -24,6 +25,11 @@ class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = "ads/register.html"
     success_url = reverse_lazy('ads_list')
+
+class AdsListView(ListView):
+    model = Ad
+    template_name = "ads_list.html"
+    context_object_name = "ads"    
 
     def form_valid(self, form):
         user = form.save()

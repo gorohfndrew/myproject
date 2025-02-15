@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 from ads.views import AdViewSet, CategoryViewSet, ads_list, ad_detail, add_ad, site_rules, about, privacy_policy, categories_html, search_results, RegisterView
 from ads.views import search_view
-
+from .views import AdsListView
 
 # Создаём роутер и регистрируем ViewSet'ы
 router = DefaultRouter()
@@ -26,7 +26,10 @@ urlpatterns = [
     path('categories/', views.categories_view, name='categories'),
     path('search_results/', views.search_view, name='search_results'),
     path('advertisements/category/<slug:category_slug>/', views.category_view, name='category_ads'),
-
+    path("", ads_list, name="home"), 
+    path("ads/", include("ads.urls")),
+    path("", AdsListView.as_view(), name="home"),
+ 
     # Подключение API
     path('api/v1/', include(router.urls)),  # Подключаем API с префиксом
     path('api-auth/', include('rest_framework.urls')),  # Авторизация в DRF
