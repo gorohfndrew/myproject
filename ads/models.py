@@ -3,21 +3,30 @@ from django.contrib.auth import get_user_model
 from django.utils.safestring import mark_safe
 from django.contrib import admin
 from django.utils import timezone
+from django.utils.text import slugify
 
 User = get_user_model()
 
 # Категория объявления
 class Category(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField()  # Добавлено описание категории
+    slug = models.SlugField(unique=True, blank=True, null=True)
+    icon = models.CharField(max_length=100, default="default-icon.png")
+    description = models.TextField()  # Описание категории
+
+    def save(self, *args, **kwargs): 
+        if not self.slug:
+            self.slug = slugify(self.name)  # Автоматически создаем slug из name
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
 
+
 # Объявление
 class Ad(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='ads')
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Владелец объявления
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 
     title = models.CharField(max_length=255)
     description = models.TextField()  # Описание объявления
@@ -36,23 +45,6 @@ class Ad(models.Model):
     def __str__(self):
         return self.title
 
-    # Настройка отображения изображений и видео в админке
-    def image_url(self):
-        if self.image:
-            return self.image.url
-        return "/static/images/no-image.jpg"  # Путь к изображению по умолчанию
-
-    def is_premium_active(self):
-        """Проверка, активен ли статус премиум."""
-        return bool(self.premium_until and self.premium_until > timezone.now())
-
-    def video_tag(self):
-        """Метод для отображения видео в админке."""
-        if self.video:
-            return mark_safe(f'<video width="100" controls><source src="{self.video.url}" type="video/mp4">Ваш браузер не поддерживает видео.</video>')
-        return 'Нет видео'
-
-    video_tag.short_description = 'Видео'  # Переименовываем заголовок в админке
 
 # Админка для работы с объявлениями
 class AdAdmin(admin.ModelAdmin):
@@ -65,8 +57,21 @@ class AdAdmin(admin.ModelAdmin):
     
     image_tag.short_description = "Изображение"
 
+    def video_tag(self, obj):
+        """Метод для отображения видео в админке."""
+        if obj.video:
+            return mark_safe(f'<video width="100" controls><source src="{obj.video.url}" type="video/mp4">Ваш браузер не поддерживает видео.</video>')
+        return 'Нет видео'
+    
+    video_tag.short_description = "Видео"
+
     # Фильтрация по премиум-объявлениям в админке
     list_filter = ('is_premium', 'is_boosted', 'is_standard', 'is_popular')
 
-# Регистрация модели и админки
+    def is_premium_active(self, obj):
+        """Проверка, активен ли статус премиум."""
+        return bool(obj.premium_until and obj.premium_until > timezone.now())
+    is_premium_active.short_description = 'Премиум активен'
+
+
 

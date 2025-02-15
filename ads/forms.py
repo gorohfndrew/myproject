@@ -1,5 +1,14 @@
 from django import forms
 from .models import Ad
+from .models import Category
+
+
+
+class CategoryForm(forms.Form):
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),  # Здесь подтягиваются все категории из базы данных
+        empty_label="Выберите категорию"   # Это текст, который будет отображаться до выбора категории
+    )
 
 class AdForm(forms.ModelForm):
     class Meta:

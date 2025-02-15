@@ -1,0 +1,35 @@
+{% extends "ads_list.html" %}
+
+{% block content %}
+    <h1>Результаты поиска по запросу: "{{ query }}"</h1>
+
+    <ul>
+        {% for ad in page_obj %}
+            <li>
+                <a href="{% url 'ad_detail' ad.id %}">{{ ad.title }}</a> — {{ ad.category.name }}
+            </li>
+        {% empty %}
+            <p>Немає результатів для вашого пошуку.</p>
+        {% endfor %}
+    </ul>
+
+    {% if page_obj.has_other_pages %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?q={{ query }}{% if category_slug %}&category={{ category_slug }}{% endif %}&page=1">&laquo; Перша</a>
+                    <a href="?q={{ query }}{% if category_slug %}&category={{ category_slug }}{% endif %}&page={{ page_obj.previous_page_number }}">Попередня</a>
+                {% endif %}
+
+                <span class="current">
+                    Сторінка {{ page_obj.number }} із {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?q={{ query }}{% if category_slug %}&category={{ category_slug }}{% endif %}&page={{ page_obj.next_page_number }}">Наступна</a>
+                    <a href="?q={{ query }}{% if category_slug %}&category={{ category_slug }}{% endif %}&page={{ page_obj.paginator.num_pages }}">Остання &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,11 +1,21 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import Ad, Category
+from django.db import models
+from .models import Ad 
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'icon')
+    prepopulated_fields = {'slug': ('name',)}  # Автоматическое заполнение slug на основе имени
+
+
 
 class AdAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'is_premium', 'created_at', 'image_url', 'video_preview','is_standard', 'is_popular', 'is_boosted')
     list_filter = ('is_premium',)
 
+    
     # Отображение изображения
     def image_url(self, obj):
         if obj.image:
@@ -21,6 +31,7 @@ class AdAdmin(admin.ModelAdmin):
         return '-'
 
     video_preview.short_description = "Видео"
+
 
 # Регистрируем модель Ad в админке
 admin.site.register(Ad, AdAdmin)  # Оставляем здесь!

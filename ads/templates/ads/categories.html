@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% load custom_filters %}
+
+{% block title %}Категорії{% endblock %}
+
+{% block content %}
+<div class="categories-container">
+    <h1>Категорії</h1>
+    <div class="categories">
+        {% for category in categories %}
+            <a href="{% url 'advertisements' %}?category={{ category.slug }}" class="category">
+                <i class="fa {% if category.name == 'Тварини' %}fa-paw
+                        {% elif category.name == 'Автомобілі' %}fa-car
+                        {% elif category.name == 'Мотоцикли' %}fa-motorcycle
+                        {% elif category.name == 'Скутери' %}fa-moped
+                        {% elif category.name == 'Мебель' %}fa-couch
+                        {% elif category.name == 'Антикваріат' %}fa-landmark
+                        {% elif category.name == 'Ножі' %}fa-knife-kitchen
+                        {% elif category.name == 'Робота' %}fa-briefcase
+                        {% elif category.name == 'Нерухомість' %}fa-key
+                        {% elif category.name == 'Запчастини' %}fa-wrench
+                        {% elif category.name == 'Дім і сад' %}fa-house
+                        {% elif category.name == 'Електроніка' %}fa-laptop
+                        {% elif category.name == 'Бізнес' %}fa-handshake
+                        {% elif category.name == 'Хобі' %}fa-bicycle
+                        {% elif category.name == 'Одяг' %}fa-shirt
+                        {% else %}fa-ellipsis{% endif %}"></i>
+                {{ category.name }} 
+                <span class="count">Оголошень {{category_counts|get_item:category.name|default:0}}</span>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+<style>
+    .categories-container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .categories-container h1 {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .categories {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .category {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        padding: 15px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #007BFF;
+        font-size: 16px;
+        width: 200px;
+        text-align: center;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .category i {
+        margin-bottom: 10px;
+        font-size: 24px;
+    }
+
+    .category .count {
+        font-size: 14px;
+        color: #777;
+    }
+
+    .category:hover {
+        background-color: #007BFF;
+        color: #fff;
+        transform: scale(1.1);
+    }
+
+    .category:active {
+        transform: scale(0.95);
+    }
+</style>
+{% endblock %}

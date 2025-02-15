@@ -1,6 +1,9 @@
 <!-- base.html -->
 {% load static %}
 
+{% load custom_filters %}
+
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -139,19 +142,57 @@ a:hover {
                 <li><a href="/rules/">Правила</a></li>
                 <li><a href="/ads/">Оголошення</a></li>
                 <li><a href="/about/">Про нас</a></li>
-                <li><a href="/privacy-policy/">Політика конфіденційності</a></li>  <!-- Добавляем ссылку на политику конфиденциальности -->
-            </ul>
-        </nav>
-    </header>
+                <li><a href="/privacy-policy/">Політика конфіденційності</a></li>
+                
+                
+                <li><a href="/categories/">Категорії</a></li>
+<li>
+    <form action="/search_results/" method="GET" class="search-form">
+        <input type="text" name="q" placeholder="Пошук по сайту..." required>
+        <button type="submit"><i class="fa-solid fa-search"></i> Пошук</button>
+    </form>
+</li>  
 
-    <main>
-        {% block content %}
-        <!-- Сюди буде вставлятися контент сторінки -->
-        {% endblock %}
-    </main>
+</ul>
+</nav>
+</header>
 
-    <footer>
-        <p>&copy; 2025 Сайт оголошень</p>
-    </footer>
+<main>
+    {% block content %}
+    <!-- Сюди буде вставлятися контент сторінки -->
+    {% endblock %}
+</main>
+
+<footer>
+    <p>&copy; 2025 Сайт оголошень</p>
+</footer>
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<style>
+    .search-form {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .search-form input {
+        width: 80%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .search-form button {
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
 </body>
 </html>

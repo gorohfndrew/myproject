@@ -12,6 +12,11 @@ from .models import Ad, Category
 from .serializers import AdSerializer, CategorySerializer
 from .forms import AdForm
 from django.shortcuts import render
+from .models import Ad
+from django.http import JsonResponse
+
+
+
 
 
 # Регистрация пользователей
@@ -62,10 +67,11 @@ def add_ad(request):
 # Список объявлений с пагинацией
 def ads_list(request):
     ads_list = Ad.objects.all()
-    paginator = Paginator(ads_list, 10)  # Показывать 10 объявлений на странице
+    paginator = Paginator(ads_list, 10) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'ads/ads_list.html', {'page_obj': page_obj})
+
 
 
 # Правила сайта
@@ -80,9 +86,91 @@ def ad_detail(request, ad_id):
 
 def about(request):
     return render(request, 'about.html')  # Переконайтеся, що у вас є шаблон about.html
-def ads_list(request):
-    ads = Ad.objects.all()
-    return render(request, 'ads/ads_list.html', {'ads': ads})
+
 
 def privacy_policy(request):
     return render(request, 'privacy_policy.html')
+
+
+
+def advertisements_view(request):
+    category_slug = request.GET.get('category')
+
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        ads = Ad.objects.filter(category=category)
+    else:
+        ads = Ad.objects.all()
+
+    return render(request, 'ads/ads_list.html', {'ads': ads, 'category_slug': category_slug})
+
+
+
+
+def get_category_counts():
+    categories = Category.objects.all()
+    counts = {category.name: category.ads.count() for category in categories}
+    return counts  # Теперь функция что-то возвращает
+
+def category_view(request, category_slug):
+    category = get_object_or_404(Category, slug=category_slug)
+    ads = Ad.objects.filter(category=category)
+    return render(request, 'ads/category_ads.html', {'category': category, 'ads': ads})
+
+def categories_view(request):
+    categories = Category.objects.all()
+    category_counts = {category.name: category.ads.count() for category in categories}  
+    return render(request, 'categories.html', {
+        'categories': categories,
+        'category_counts': category_counts
+    })
+def search_results(request):
+    query = request.GET.get('q', '')
+    category_slug = request.GET.get('category', '')
+
+    results = Ad.objects.all()
+
+    if query:
+        results = results.filter(title__icontains=query)
+
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        results = results.filter(category=category)
+
+    paginator = Paginator(results, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'ads/search_results.html', {
+        'page_obj': page_obj,
+        'query': query,
+        'category_slug': category_slug
+    })
+
+
+
+def search_view(request):
+    query = request.GET.get('q', '').strip()  # Получаем поисковый запрос
+    category_slug = request.GET.get('category', '')  # Получаем категорию
+
+    results = Ad.objects.all()
+
+    if query:
+        results = results.filter(title__icontains=query)
+
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        results = results.filter(category=category)
+
+    paginator = Paginator(results, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    categories = Category.objects.all()
+
+    return render(request, 'ads/search_results.html', {
+        'page_obj': page_obj,
+        'query': query,
+        'category_slug': category_slug,
+        'categories': categories
+    })

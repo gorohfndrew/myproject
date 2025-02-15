@@ -180,9 +180,9 @@
     </div>
     
     <div class="container">
-        <h1>Список объявлений</h1>
+        <h1>Список оголошень</h1>
     
-        <!-- Сообщения -->
+        <!-- Повідомлення -->
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -191,21 +191,21 @@
             </ul>
         {% endif %}
     
-        <!-- Навигационные кнопки -->
-        <a href="{% url 'site_rules' %}" class="btn">Правила сайта</a>
-        <a href="{% url 'add_ad' %}" class="add-ad-btn">Добавить объявление</a>
+        <!-- Навігаційні кнопки -->
+        <a href="{% url 'site_rules' %}" class="btn">Правила сайт</a>
+        <a href="{% url 'add_ad' %}" class="add-ad-btn">Додати оголошення</a>
     
         {% if user.is_authenticated %}
-            <!-- Площадка для кнопки выхода, если нужно -->
+            <!-- Площадка для кнопки виходу, якщо потрібно -->
         {% else %}
-            <a href="{% url 'register' %}" class="btn">Регистрация</a>
+            <a href="{% url 'register' %}" class="btn">Реєстрація</a>
         {% endif %}
     
-        <!-- Список объявлений -->
+        <!-- Список оголошень -->
         <div class="ad-list">
-            {% if ads %}
-                {% for ad in ads %}
-                <div class="ad-card {% if ad.is_premium and ad.premium_until %}premium{% endif %}">
+            {% if page_obj %}
+                {% for ad in page_obj %}
+                    <div class="ad-card {% if ad.is_premium and ad.premium_until %}premium{% endif %}">
                         {% if ad.image %}
                             <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
                         {% endif %}
@@ -214,22 +214,24 @@
                             <div class="video-container">
                                 <video controls>
                                     <source src="{{ ad.video.url }}" type="video/mp4">
-                                    Ваш браузер не поддерживает видео.
+                                    Ваш браузер не підтримує відео.
                                 </video>
                             </div>
                         {% endif %}
+                        
                         <h3>{{ ad.title }}</h3>
-                        <p>Цена: <strong>{{ ad.price }} грн.</strong></p>
-
+                        <p>Ціна: <strong>{{ ad.price }} грн.</strong></p>
+    
                         <div class="ad-buttons">
                             {% if ad.is_premium and ad.premium_until %}
-                                <span class="premium-label">Премиум</span>
+                                <span class="premium-label">Преміум</span>
                             {% elif ad.is_popular %}
-                                <span class="popular-label">Популярный</span>
+                                <span class="popular-label">Популярний</span>
                             {% else %}
                                 <span class="standard-label">Стандарт</span>
                             {% endif %}
-                            <a href="{% url 'ad_detail' ad.id %}" class="btn">Подробнее</a>
+                            
+                            <a href="{% url 'ad_detail' ad.id %}" class="btn">Докладніше</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -238,6 +240,6 @@
             {% endif %}
         </div>
     </div>
-</body>
-</html>
-{% endblock %}
+    </body>
+    </html>
+    {% endblock %}
