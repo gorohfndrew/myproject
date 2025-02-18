@@ -53,7 +53,7 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates", BASE_DIR / "ads/templates", BASE_DIR / "ads/templates/ads"],
+        'DIRS': [BASE_DIR / "templates", BASE_DIR / "ads/templates",BASE_DIR /"ads/templates/ads"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -142,14 +142,14 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
-            'level': 'DEBUG',
+            'level': 'CRITICAL',  # Показываются только критические ошибки
             'class': 'logging.StreamHandler',
         },
     },
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'CRITICAL',  # Показываются только критические ошибки
             'propagate': True,
         },
     },

@@ -1,7 +1,7 @@
-{% extends "ads_list.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-    <h1>Результаты поиска по запросу: "{{ query }}"</h1>
+    <h1>Результати пошуку по запиту: "{{ query }}"</h1>
 
     <ul>
         {% for ad in page_obj %}
