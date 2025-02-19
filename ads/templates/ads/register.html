@@ -1,33 +1,100 @@
 {% extends "base.html" %}
 
+{% block title %}
+    Реєстрація
+{% endblock %}
+
 {% block content %}
-<h2>Реєстрація</h2>
+    <div class="register-container">
+        <h2>Реєстрація</h2>
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
 
-<form method="post" action="{% url 'register' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Зареєструватися</button>
-</form>
+            <label for="id_username">Ім'я користувача:</label>
+            <input type="text" name="username" id="id_username" required>
 
-<p><a href="{% url 'ads_list' %}">Перейти до списку оголошень</a></p>
+            <label for="id_email">Електронна пошта:</label>
+            <input type="email" name="email" id="id_email" required>
 
-<style>
-    /* Приклад стилізації для форми реєстрації */
-    h2 {
-        color: #4CAF50;
-    }
-    form {
-        margin: 20px 0;
-    }
-    button {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-    }
-    button:hover {
-        background-color: #45a049;
-    }
-</style>
+            <label for="id_phone">Номер телефону:</label>
+            <input type="text" name="phone" id="id_phone" required>
+
+            <label for="id_password">Пароль:</label>
+            <input type="password" name="password" id="id_password" required>
+
+            <label for="id_password_confirm">Підтвердження пароля:</label>
+            <input type="password" name="password_confirm" id="id_password_confirm" required>
+
+            <button type="submit">Зареєструватися</button>
+        </form>
+
+        <p><a href="{% url 'ads_list' %}">Перейти до списку оголошень</a></p>
+    </div>
+{% endblock %}
+
+{% block custom_styles %}
+    <style>
+        .register-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            margin: auto;
+        }
+
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            text-align: left;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            border-color: #4CAF50;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 6px;
+            background: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
 {% endblock %}
