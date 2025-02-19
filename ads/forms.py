@@ -37,18 +37,12 @@ class RegistrationForm(forms.Form):
         
         return cleaned_data
 
-    def save(self):
-        user = User.objects.create_user(
-            username=self.cleaned_data["username"],
-            email=self.cleaned_data["email"],
-            password=self.cleaned_data["password"]
-        )
-        # Здесь вы можете добавить логику для сохранения телефона (если нужно).
-        # Например:
-        # user.profile.phone = self.cleaned_data["phone"]
-        # user.profile.save()
-        return user        
-
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])  # 🔹 Хешируем пароль
+        if commit:
+            user.save()
+        return user
     def clean_price(self):
         price = self.cleaned_data.get('price')
         if price <= 0:
