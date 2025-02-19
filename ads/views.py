@@ -90,14 +90,33 @@ def privacy_policy(request):
 
 
 # Фильтрация объявлений по категориям
-def category_view(request, category_slug):
-    category = get_object_or_404(Category, slug=category_slug)
-    ads = Ad.objects.filter(category=category)
-    return render(request, 'ads/category_ads.html', {'category': category, 'ads': ads})
+def category_detail(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    first_ad = Ad.objects.filter(category=category).first()
+
+    if first_ad:
+        return redirect('ad_detail', first_ad.id)  # Перенаправляем на первое объявление
+
+    return render(request, 'ads/category_detail.html', {'category': category})
 
 def categories_list(request):
     categories = Category.objects.all()
-    return render(request, 'ads/categories.html', {'categories': categories})
+    category_ads = {}
+
+    # Заполняем словарь category_ads количеством объявлений для каждой категории
+    for category in categories:
+        ads_count = Ad.objects.filter(category=category).count()
+        category_ads[category.name] = ads_count
+
+    return render(request, 'ads/categories.html', {
+        'categories': categories,
+        'category_ads': category_ads
+    })
+def category_view(request, category_slug):
+    category = get_object_or_404(Category, slug=category_slug)
+    ads = Ad.objects.filter(category=category)
+    
+    return render(request, 'ads/category_detail.html', {'category': category, 'ads': ads})
 
 
 

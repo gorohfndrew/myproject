@@ -1,6 +1,8 @@
 from django import forms
 from .models import Ad
 from .models import Category
+from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 
 
@@ -18,6 +20,34 @@ class AdForm(forms.ModelForm):
             'premium_until': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'description': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }
+class RegistrationForm(forms.Form):
+    username = forms.CharField(max_length=255)
+    email = forms.EmailField()
+    phone = forms.CharField(max_length=20)
+    password = forms.CharField(widget=forms.PasswordInput)
+    password_confirm = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password_confirm = cleaned_data.get("password_confirm")
+        
+        if password != password_confirm:
+            raise ValidationError("Паролі не співпадають")
+        
+        return cleaned_data
+
+    def save(self):
+        user = User.objects.create_user(
+            username=self.cleaned_data["username"],
+            email=self.cleaned_data["email"],
+            password=self.cleaned_data["password"]
+        )
+        # Здесь вы можете добавить логику для сохранения телефона (если нужно).
+        # Например:
+        # user.profile.phone = self.cleaned_data["phone"]
+        # user.profile.save()
+        return user        
 
     def clean_price(self):
         price = self.cleaned_data.get('price')

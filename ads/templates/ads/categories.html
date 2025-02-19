@@ -8,7 +8,7 @@
     <h1>Категорії</h1>
     <div class="categories">
         {% for category in categories %}
-        <a href="{% url 'ads_list' %}?category={{ category.slug }}" class="category">
+        <a href="{% url 'ad_detail' category.id %}" class="category">
             <i class="fa {% if category.name == 'Тварини' %}fa-paw
                     {% elif category.name == 'Автомобілі' %}fa-car
                     {% elif category.name == 'Мотоцикли' %}fa-motorcycle
@@ -26,7 +26,7 @@
                     {% elif category.name == 'Одяг' %}fa-shirt
                     {% else %}fa-ellipsis{% endif %}"></i>
             {{ category.name }}
-            <span class="count">Оголошень: {{ category_counts|get_item:category.name|default:0 }}</span>
+            <span class="count">Оголошення: {{ category_ads|get_item:category.name|default:0 }} </span>
         </a>
         {% endfor %}
     </div>

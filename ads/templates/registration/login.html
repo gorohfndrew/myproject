@@ -1,19 +1,29 @@
 {% extends "base.html" %}
 
-{% block title %}Вход в систему{% endblock %}
+{% block title %}Реєстрація{% endblock %}
 
 {% block content %}
     <div class="login-container">
-        <h2>Вход в систему</h2>
+        <h2>Реєстрація в систему</h2>
         <form method="POST">
             {% csrf_token %}
-            <label for="id_username">Имя пользователя:</label>
+            
+            <label for="id_username">Ім'я користувача:</label>
             <input type="text" name="username" id="id_username" required>
+            
+            <label for="id_email">Електронна пошта:</label>
+            <input type="email" name="email" id="id_email" required>
+            
+            <label for="id_phone">Номер телефону:</label>
+            <input type="text" name="phone" id="id_phone" required>
             
             <label for="id_password">Пароль:</label>
             <input type="password" name="password" id="id_password" required>
             
-            <button type="submit">Войти</button>
+            <label for="id_password_confirm">Підтвердження пароля:</label>
+            <input type="password" name="password_confirm" id="id_password_confirm" required>
+            
+            <button type="submit">Зареєструватися</button>
         </form>
     </div>
 {% endblock %}
