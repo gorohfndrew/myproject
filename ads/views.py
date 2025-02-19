@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 from rest_framework import viewsets
+from .forms import RegistrationForm
 
 from .models import Ad, Category
 from .serializers import AdSerializer, CategorySerializer
@@ -13,6 +14,8 @@ from .forms import AdForm
 from django.http import JsonResponse
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate
+
 
 
 # Регистрация пользователей
@@ -155,3 +158,15 @@ def advertisements_view(request, category_slug=None):
     else:
         ads = Ad.objects.all()
     return render(request, 'ads/advertisements_list.html', {'ads': ads})
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Авторизация пользователя после регистрации
+            return redirect('ads_list')  # Перенаправление на страницу со списком объявлений
+    else:
+        form = RegistrationForm()
+
+    return render(request, 'registration/register.html', {'form': form})

@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Регистрация</h2>
+<h2>Реєстрація</h2>
 
 <form method="post" action="{% url 'register' %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Зарегистрироваться</button>
+    <button type="submit">Зареєструватися</button>
 </form>
 
-<p><a href="{% url 'ads_list' %}">Перейти к списку объявлений</a></p>
+<p><a href="{% url 'ads_list' %}">Перейти до списку оголошень</a></p>
 
 <style>
-    /* Пример стилизации для формы регистрации */
+    /* Приклад стилізації для форми реєстрації */
     h2 {
         color: #4CAF50;
     }

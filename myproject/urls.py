@@ -23,7 +23,7 @@ urlpatterns = [
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),    
     path('search_results/', views.search_view, name='search_results'),
     path('categories/', views.categories_list, name='categories_list'), 
-   
+    path("register/", views.register, name="register"),
     
     # Путь для фильтрации объявлений по категориям
     path('advertisements/category/<slug:category_slug>/', views.category_view, name='category_ads'),

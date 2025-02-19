@@ -1,29 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}Реєстрація{% endblock %}
+{% block title %}
+    Вхід в систему
+{% endblock %}
 
 {% block content %}
     <div class="login-container">
-        <h2>Реєстрація в систему</h2>
+        <h2>Вхід в систему</h2>
         <form method="POST">
             {% csrf_token %}
             
             <label for="id_username">Ім'я користувача:</label>
             <input type="text" name="username" id="id_username" required>
             
-            <label for="id_email">Електронна пошта:</label>
-            <input type="email" name="email" id="id_email" required>
-            
-            <label for="id_phone">Номер телефону:</label>
-            <input type="text" name="phone" id="id_phone" required>
-            
             <label for="id_password">Пароль:</label>
             <input type="password" name="password" id="id_password" required>
             
-            <label for="id_password_confirm">Підтвердження пароля:</label>
-            <input type="password" name="password_confirm" id="id_password_confirm" required>
-            
-            <button type="submit">Зареєструватися</button>
+            <button type="submit">Війти</button>
         </form>
     </div>
 {% endblock %}
@@ -36,7 +29,7 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
-        
+
         body {
             display: flex;
             justify-content: center;
@@ -44,7 +37,7 @@
             height: 100vh;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
         }
-        
+
         .login-container {
             background: white;
             padding: 30px;
@@ -54,12 +47,12 @@
             max-width: 350px;
             width: 100%;
         }
-        
+
         h2 {
             margin-bottom: 20px;
             color: #333;
         }
-        
+
         label {
             display: block;
             text-align: left;
@@ -67,7 +60,7 @@
             font-weight: bold;
             color: #555;
         }
-        
+
         input {
             width: 100%;
             padding: 10px;
@@ -76,11 +69,11 @@
             outline: none;
             transition: border 0.3s;
         }
-        
+
         input:focus {
             border-color: #6a11cb;
         }
-        
+
         button {
             width: 100%;
             padding: 12px;
@@ -93,12 +86,12 @@
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
         }
-        
+
         button:hover {
             background: #2575fc;
             transform: scale(1.05);
         }
-        
+
         button:active {
             transform: scale(0.95);
         }
