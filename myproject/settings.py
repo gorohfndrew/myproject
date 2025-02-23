@@ -1,9 +1,9 @@
 import os
 from pathlib import Path
 import environ
+from dotenv import load_dotenv
 import dj_database_url
 import logging
-from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,7 +13,7 @@ env_file = BASE_DIR / '.env'  # Указываем путь к .env файлу
 environ.Env.read_env(env_file)  # Загрузка переменных окружения из файла .env
 
 # Читаем переменные с использованием environ
-SECRET_KEY = env("SECRET_KEY", default=None)  
+SECRET_KEY = env("SECRET_KEY")
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY is not set in the environment variables.")  
 logging.basicConfig(level=logging.DEBUG)
@@ -23,6 +23,7 @@ DEBUG = env.bool("DEBUG", default=True)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 INSTALLED_APPS = [
+    'ads',  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,11 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_celery_results',
     'django_extensions',
-    
-
-
     'rest_framework',
-    'ads',  
+     
 ]
 
 MIDDLEWARE = [
@@ -53,7 +51,7 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates", BASE_DIR / "ads/templates",BASE_DIR /"ads/templates/ads"],
+        'DIRS': [BASE_DIR / "templates", BASE_DIR / "ads/templates", BASE_DIR / "ads/templates/ads"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,10 +66,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
-load_dotenv()
-# Загружаем переменные из .env
-DATABASE_URL = os.getenv('DATABASE_URL')
 
+# Настройки базы данных
+DATABASE_URL = env('DATABASE_URL')
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is not set!")
 
@@ -100,23 +97,20 @@ LANGUAGES = [
     ('en', 'English'),
 ]
 
-# Настройки статики
+# Статические файлы
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Настройки медиа
+# Медиа файлы
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
-LOGIN_REDIRECT_URL = '/ads/'  
-# Разрешенные файлы
+LOGIN_REDIRECT_URL = '/ads/'
+
 FILE_UPLOAD_HANDLERS = [
     "django.core.files.uploadhandler.MemoryFileUploadHandler",
     "django.core.files.uploadhandler.TemporaryFileUploadHandler",
 ]
-
-env = environ.Env()
-environ.Env.read_env()  # Чтение .env файла
 
 # Настройки Celery из .env файла
 CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='sqla+postgresql://username:password@localhost/dbname')
@@ -124,7 +118,7 @@ CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND', default='django-db')
 CELERY_ACCEPT_CONTENT = env.list('CELERY_ACCEPT_CONTENT', default=['json'])
 CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER', default='json')
 
-# Поддержка загрузки больших файлов
+# Максимальный размер загружаемых файлов
 DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100 MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100 MB
 
@@ -137,23 +131,25 @@ REST_FRAMEWORK = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Настройки логирования
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
-            'level': 'CRITICAL',  # Показываются только критические ошибки
+            'level':  "ERROR",
             'class': 'logging.StreamHandler',
         },
     },
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': 'CRITICAL',  # Показываются только критические ошибки
+            'level': "ERROR",
             'propagate': True,
         },
     },
 }
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-]
+
+# Настройка пользовательской модели
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'

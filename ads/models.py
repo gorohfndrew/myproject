@@ -74,4 +74,3 @@ class AdAdmin(admin.ModelAdmin):
     is_premium_active.short_description = 'Премиум активен'
 
 
-

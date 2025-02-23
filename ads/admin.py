@@ -1,38 +1,40 @@
 from django.contrib import admin
-from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from .models import Ad, Category
-from django.db import models
-from .models import Ad 
 
 
+# Админка для работы с категориями
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'icon')
-    prepopulated_fields = {'slug': ('name',)}  # Автоматическое заполнение slug на основе имени
+    prepopulated_fields = {'slug': ('name',)}  
 
 
-
+# Админка для работы с объявлениями
 class AdAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'is_premium', 'created_at', 'image_url', 'video_preview','is_standard', 'is_popular', 'is_boosted')
-    list_filter = ('is_premium',)
+    list_display = ('title', 'price', 'created_at', 'image_tag', 'video_tag', 'is_premium', 'is_premium_active', 'premium_until')
+    list_filter = ('is_premium', 'is_boosted', 'is_standard', 'is_popular')
+    search_fields = ('title', 'description')  
+    ordering = ('-created_at',)  
 
-    
-    # Отображение изображения
-    def image_url(self, obj):
+    def image_tag(self, obj):
         if obj.image:
-            return format_html('<img src="{}" width="100px" />', obj.image.url)
+            return mark_safe(f'<img src="{obj.image.url}" width="100px" />')
         return '-'
-    
-    image_url.short_description = 'Image'
-    
-    # Превью видео
-    def video_preview(self, obj):
+    image_tag.short_description = "Изображение"
+
+    def video_tag(self, obj):
+        """Отображает видео в админке."""
         if obj.video:
-            return format_html(f'<video width="150" controls><source src="{obj.video.url}" type="video/mp4"></video>')
-        return '-'
+            return mark_safe(f'<video width="100" controls><source src="{obj.video.url}" type="video/mp4">Ваш браузер не поддерживает видео.</video>')
+        return 'Нет видео'
+    video_tag.short_description = "Видео"
 
-    video_preview.short_description = "Видео"
+    def is_premium_active(self, obj):
+        """Проверка, активен ли статус премиум."""
+        return obj.is_premium_active()
+    is_premium_active.short_description = 'Премиум активен'
 
 
-# Регистрируем модель Ad в админке
-admin.site.register(Ad, AdAdmin)  # Оставляем здесь!
-admin.site.register(Category)
+# Регистрация моделей в админке
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Ad, AdAdmin)

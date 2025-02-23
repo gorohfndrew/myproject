@@ -10,14 +10,8 @@
         <form method="post" action="{% url 'register' %}">
             {% csrf_token %}
 
-            <label for="id_username">Ім'я користувача:</label>
+            <label for="id_username">Логін:</label>
             <input type="text" name="username" id="id_username" required>
-
-            <label for="id_email">Електронна пошта:</label>
-            <input type="email" name="email" id="id_email" required>
-
-            <label for="id_phone">Номер телефону:</label>
-            <input type="text" name="phone" id="id_phone" required>
 
             <label for="id_password">Пароль:</label>
             <input type="password" name="password" id="id_password" required>

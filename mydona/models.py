@@ -1,6 +1,19 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db import models
-from django.contrib.auth.models import User
+
+class User(AbstractUser):
+    phone = models.CharField(max_length=20, unique=True, null=False)
+
+    groups = models.ManyToManyField(
+        "auth.Group",
+        related_name="custom_user_groups",
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        "auth.Permission",
+        related_name="custom_user_permissions",
+        blank=True
+    )
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -26,4 +39,3 @@ class Message(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-# Create your models here.

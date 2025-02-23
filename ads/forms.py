@@ -6,6 +6,32 @@ from django.contrib.auth.models import User
 
 
 
+
+class RegistrationForm(forms.ModelForm):
+    phone = forms.CharField(max_length=20)
+    password = forms.CharField(widget=forms.PasswordInput)
+    password_confirm = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = User  # Указываем вашу модель пользователя
+        fields = ["username", "phone"]  # Убираем email, если не требуется
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password_confirm = cleaned_data.get("password_confirm")
+
+        if password != password_confirm:
+            raise ValidationError("Пароли не совпадают.")
+        
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])  # Хешируем пароль
+        if commit:
+            user.save()
+        return user
 class CategoryForm(forms.Form):
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),  # Здесь подтягиваются все категории из базы данных
@@ -20,29 +46,7 @@ class AdForm(forms.ModelForm):
             'premium_until': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'description': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }
-class RegistrationForm(forms.Form):
-    username = forms.CharField(max_length=255)
-    email = forms.EmailField()
-    phone = forms.CharField(max_length=20)
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_confirm = forms.CharField(widget=forms.PasswordInput)
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        password_confirm = cleaned_data.get("password_confirm")
-        
-        if password != password_confirm:
-            raise ValidationError("Паролі не співпадають")
-        
-        return cleaned_data
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])  # 🔹 Хешируем пароль
-        if commit:
-            user.save()
-        return user
     def clean_price(self):
         price = self.cleaned_data.get('price')
         if price <= 0:
