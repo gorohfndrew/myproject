@@ -9,15 +9,8 @@
         <h2>Реєстрація</h2>
         <form method="post" action="{% url 'register' %}">
             {% csrf_token %}
-
-            <label for="id_username">Логін:</label>
-            <input type="text" name="username" id="id_username" required>
-
-            <label for="id_password">Пароль:</label>
-            <input type="password" name="password" id="id_password" required>
-
-            <label for="id_password_confirm">Підтвердження пароля:</label>
-            <input type="password" name="password_confirm" id="id_password_confirm" required>
+            
+            {{ form.as_p }}  <!-- Это отрисует все поля формы -->
 
             <button type="submit">Зареєструватися</button>
         </form>
@@ -25,7 +18,6 @@
         <p><a href="{% url 'ads_list' %}">Перейти до списку оголошень</a></p>
     </div>
 {% endblock %}
-
 {% block custom_styles %}
     <style>
         .register-container {

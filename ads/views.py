@@ -18,19 +18,17 @@ from django.contrib.auth import authenticate
 
 
 
-# Регистрация пользователей
+# Регистрация пользователейclass RegisterView(CreateView):
 class RegisterView(CreateView):
-    form_class = UserCreationForm
+    form_class = RegistrationForm  # Используем вашу форму регистрации
     template_name = "ads/register.html"
     success_url = reverse_lazy('ads_list')
 
     def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        next_url = self.request.GET.get('next', self.success_url)
-        return redirect(next_url)
-
-
+        user = form.save()  # Сохраняем пользователя
+        login(self.request, user)  # Логиним пользователя после успешной регистрации
+        next_url = self.request.GET.get('next', self.success_url)  # Если есть next, то редирект туда
+        return redirect(next_url)    
 # API для объявлений
 class AdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
