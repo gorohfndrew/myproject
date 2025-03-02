@@ -175,71 +175,92 @@
     </style>
 </head>
 <body>
-    <div class="banner">
-        Добро пожаловать на сайт объявлений!
-    </div>
-    
-    <div class="container">
-        <h1>Список оголошень</h1>
-    
-        <!-- Повідомлення -->
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    
-        <!-- Навігаційні кнопки -->
-        <a href="{% url 'site_rules' %}" class="btn">Правила сайт</a>
-        <a href="{% url 'add_ad' %}" class="add-ad-btn">Додати оголошення</a>
-    
-        {% if user.is_authenticated %}
-            <!-- Площадка для кнопки виходу, якщо потрібно -->
-        {% else %}
-            <a href="{% url 'register' %}" class="btn">Реєстрація</a>
-        {% endif %}
-    
-        <!-- Список оголошень -->
-        <div class="ad-list">
-            {% if page_obj %}
-                {% for ad in page_obj %}
-                    <div class="ad-card {% if ad.is_premium and ad.premium_until %}premium{% endif %}">
-                        {% if ad.image %}
-                            <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
-                        {% endif %}
-    
-                        {% if ad.video %}
-                            <div class="video-container">
-                                <video controls>
-                                    <source src="{{ ad.video.url }}" type="video/mp4">
-                                    Ваш браузер не підтримує відео.
-                                </video>
-                            </div>
+
+    {% block title %}{{ category.name }}{% endblock %}
+
+<div class="banner">
+    Добро пожаловать на сайт объявлений!
+</div>
+
+<div class="container">
+    <h1>{{ category.name }}</h1>
+
+    <!-- Повідомлення -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Навигационные кнопки -->
+    <a href="{% url 'ads:site_rules' %}" class="btn">Правила сайт</a>
+    <a href="{% url 'ads:add_ad' %}" class="add-ad-btn">Додати оголошення</a>
+
+    {% if user.is_authenticated %}
+        <!-- Площадка для кнопки выхода, если нужно -->
+    {% else %}
+        <a href="{% url 'register' %}" class="btn">Регистрация</a>
+    {% endif %}
+
+    <!-- Список объявлений -->
+    <div class="ad-list">
+        {% if page_obj %}
+            {% for ad in page_obj %}
+                <div class="ad-card {% if ad.is_premium and ad.premium_until %}premium{% endif %}">
+                    {% if ad.image %}
+                        <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
+                    {% endif %}
+
+                    {% if ad.video %}
+                        <div class="video-container">
+                            <video controls>
+                                <source src="{{ ad.video.url }}" type="video/mp4">
+                                Ваш браузер не поддерживает видео.
+                            </video>
+                        </div>
+                    {% endif %}
+                    
+                    <h3>{{ ad.title }}</h3>
+                    <p>Цена: <strong>{{ ad.price }} грн.</strong></p>
+
+                    <div class="ad-buttons">
+                        {% if ad.is_premium and ad.premium_until %}
+                            <span class="premium-label">Премиум</span>
+                        {% elif ad.is_popular %}
+                            <span class="popular-label">Популярный</span>
+                        {% else %}
+                            <span class="standard-label">Стандарт</span>
                         {% endif %}
                         
-                        <h3>{{ ad.title }}</h3>
-                        <p>Ціна: <strong>{{ ad.price }} грн.</strong></p>
-    
-                        <div class="ad-buttons">
-                            {% if ad.is_premium and ad.premium_until %}
-                                <span class="premium-label">Преміум</span>
-                            {% elif ad.is_popular %}
-                                <span class="popular-label">Популярний</span>
-                            {% else %}
-                                <span class="standard-label">Стандарт</span>
-                            {% endif %}
-                            
-                            <a href="{% url 'ad_detail' ad.id %}" class="btn">Докладніше</a>
-                        </div>
+                        <a href="{% url 'ads:ad_detail' ad.id %}" class="btn">Докладніше</a>
                     </div>
-                {% endfor %}
-            {% else %}
-                <p>Объявлений пока нет.</p>
-            {% endif %}
-        </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Объявлений пока нет.</p>
+        {% endif %}
     </div>
-    </body>
-    </html>
-    {% endblock %}
+
+    <!-- Пагинация -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Первая</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+
+            <span class="current">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+
+{% endblock %}

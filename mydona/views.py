@@ -8,7 +8,6 @@ from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 
 from .models import Ad, Category
-from ads.views import categories_html
 
 from .models import Ad
 

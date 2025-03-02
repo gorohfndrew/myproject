@@ -1,36 +1,17 @@
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib import admin
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from . import views
-from ads.views import AdViewSet, CategoryViewSet, ad_detail, add_ad, site_rules, about, privacy_policy, RegisterView, AdsListView
 
-# Создаём роутер и регистрируем ViewSet'ы
-router = DefaultRouter()
-router.register(r'ads', AdViewSet)
-router.register(r'categories', CategoryViewSet)
+app_name = 'ads'  # Простір імен для додатка ads
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Админка
-    path('ads/', views.ads_list, name='ads_list'),  # Список объявлений
-    path('rules/', site_rules, name='site_rules'),  # Страница правил
-    path('ad/<int:ad_id>/', ad_detail, name='ad_detail'),  # Страница одного объявления
-    path('add/', add_ad, name='add_ad'),  # Форма добавления объявления
-    path('register/', RegisterView.as_view(), name='register'),  # Страница регистрации
-    path('about/', about, name='about'),  # Страница "Про нас"
-    path('privacy-policy/', privacy_policy, name='privacy_policy'),  # Страница политики конфиденциальности
-    path('categories/', views.categories_view, name='categories'),  # Страница категорий
-    path('search_results/', views.search_view, name='search_results'),  # Результаты поиска
-    path('advertisements/category/<slug:category_slug>/', views.category_view, name='category_ads'),  # Фильтрация по категориям
-    path("", AdsListView.as_view(), name="home"),  # Главная страница с использованием AdsListView
-
-    # Подключение API
-    path('api/v1/', include(router.urls)),  # Подключаем API с префиксом
-    path('api-auth/', include('rest_framework.urls')),  # Авторизация в DRF
+    path('', views.ads_list, name='ads_list'),  # Список всіх оголошень
+    path('categories/', views.categories_list, name='categories'),  # Сторінка категорій
+    path('category/<slug:category_slug>/', views.ads_list, name='category_ads'),  # Фільтр по категорії
+    path('rules/', views.site_rules, name='site_rules'),  # Сторінка правил
+    path('ad/<int:ad_id>/', views.ad_detail, name='ad_detail'),
+    path('add/', views.add_ad, name='add_ad'),  # Додавання оголошення
+    path('register/', views.RegisterView.as_view(), name='register'),  # Реєстрація
+    path('about/', views.about, name='about'),  # Про нас
+    path('privacy-policy/', views.privacy_policy, name='privacy_policy'),  # Політика конфіденційності
+    path('search_results/', views.search_view, name='search_results'),  # Пошук
 ]
-
-# Для работы с медиа-файлами в режиме разработки
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    

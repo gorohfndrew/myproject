@@ -6,7 +6,7 @@
     <ul>
         {% for ad in page_obj %}
             <li>
-                <a href="{% url 'ad_detail' ad.id %}">{{ ad.title }}</a> — {{ ad.category.name }}
+                <a href="{% url 'ads:ad_detail' ad.id %}">{{ ad.title }}</a> — {{ ad.category.name }}  
             </li>
         {% empty %}
             <p>Немає результатів для вашого пошуку.</p>

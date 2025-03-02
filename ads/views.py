@@ -7,7 +7,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 from rest_framework import viewsets
 from .forms import RegistrationForm
-
+from ads import views
 from .models import Ad, Category
 from .serializers import AdSerializer, CategorySerializer
 from .forms import AdForm
@@ -15,7 +15,11 @@ from django.http import JsonResponse
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
-
+class UserListView(ListView):
+    model = User
+    template_name = "ads/user_list.html"
+    context_object_name = "users"
+    paginate_by = 10
 
 
 # Регистрация пользователейclass RegisterView(CreateView):
@@ -34,6 +38,10 @@ class AdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
 
+class AdsListView(ListView):
+    model = Ad
+    template_name = "ads/ads_list.html"  # Вкажіть правильний шлях до шаблону
+    context_object_name = "ads"
 
 # API для категорий
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -61,15 +69,22 @@ def add_ad(request):
 
 
 # Список объявлений с пагинацией
-def ads_list(request):
-    ads_list = Ad.objects.all()
-    paginator = Paginator(ads_list, 10)
-    page_number = request.GET.get('page')
+def ads_list(request, category_slug=None):
+    # Получаем категорию, если передан slug
+    category = None
+    if category_slug:
+        category = Category.objects.filter(slug=category_slug).first() # Используем .first(), чтобы избежать ошибки, если категория не найдена
+        ads = Ad.objects.filter(category=category)
+    else:
+        ads = Ad.objects.all()
+
+    # Пагинация
+    paginator = Paginator(ads, 10)  # По 10 объявлений на странице
+    page_number = request.GET.get('page')  # Получаем номер страницы из GET параметра
     page_obj = paginator.get_page(page_number)
-    return render(request, 'ads/ads_list.html', {'page_obj': page_obj})
 
+    return render(request, 'ads/ads_list.html', {'category': category, 'page_obj': page_obj})
 
-# Детали объявления
 def ad_detail(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
     return render(request, 'ads/ad_detail.html', {'ad': ad})
@@ -77,8 +92,7 @@ def ad_detail(request, ad_id):
 
 # Правила сайта
 def site_rules(request):
-    return render(request, 'ads/rules.html')
-
+    return render(request, 'ads/rules.html', {})
 
 # Страница "О нас"
 def about(request):
@@ -99,27 +113,39 @@ def category_detail(request, slug):
         return redirect('ad_detail', first_ad.id)  # Перенаправляем на первое объявление
 
     return render(request, 'ads/category_detail.html', {'category': category})
-
 def categories_list(request):
+    # Получаем все категории
     categories = Category.objects.all()
+
+    # Создаём словарь для хранения количества объявлений в каждой категории
     category_ads = {}
 
-    # Заполняем словарь category_ads количеством объявлений для каждой категории
+    # Проходим по всем категориям и получаем количество объявлений в каждой категории
     for category in categories:
         ads_count = Ad.objects.filter(category=category).count()
-        category_ads[category.name] = ads_count
+        category_ads[category.slug] = ads_count  # Используем slug в качестве ключа
+        print(f"Категория: {category.name}, Слаг: {category.slug}")
 
+    # Отображаем шаблон с категориями и количеством объявлений
     return render(request, 'ads/categories.html', {
         'categories': categories,
         'category_ads': category_ads
     })
-def category_view(request, category_slug):
-    category = get_object_or_404(Category, slug=category_slug)
-    ads = Ad.objects.filter(category=category)
     
-    return render(request, 'ads/category_detail.html', {'category': category, 'ads': ads})
 
+def category_view(request, category_slug):
+    # Получаем категорию по slug, если нет - возвращаем 404
+    category = get_object_or_404(Category, slug=category_slug)
+    
+    # Получаем все объявления для этой категории (без пагинации)
+    ads = Ad.objects.filter(category=category).order_by('-created_at')  # сортируем по дате создания, можно изменить порядок
 
+    # Передаем данные в шаблон
+    return render(
+        request,
+        'ads/categories.html',
+        {'category': category, 'ads': ads}
+    )
 
 
 # Поиск объявлений

@@ -31,7 +31,7 @@ class AdAdmin(admin.ModelAdmin):
 
     def is_premium_active(self, obj):
         """Проверка, активен ли статус премиум."""
-        return obj.is_premium_active()
+        return obj.is_premium_active
     is_premium_active.short_description = 'Премиум активен'
 
 

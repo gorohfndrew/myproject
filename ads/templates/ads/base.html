@@ -138,16 +138,14 @@ a:hover {
 <body>
     <header>
         <nav>
-            <ul>
-                <li><a href="/rules/">Правила</a></li>
-                <li><a href="/ads/">Оголошення</a></li>
-                <li><a href="/about/">Про нас</a></li>
-                <li><a href="/privacy-policy/">Політика конфіденційності</a></li>
+            <ul><li><a href="{% url 'ads:site_rules' %}">Правила</a></li>
+                <li><a href="{% url 'ads:ads_list' %}">Оголошення</a></li>
+                <li><a href="{% url 'ads:about' %}">Про нас</a></li>
+                <li><a href="{% url 'ads:privacy_policy' %}">Політика конфіденційності</a></li>
                 
-                
-                <li><a href="/categories/">Категорії</a></li>
+                <li><a href="{% url 'ads:categories' %}">Категорії</a></li>
 <li>
-    <form action="/search_results/" method="GET" class="search-form">
+    <form action="{% url 'ads:search_results' %}" method="GET" class="search-form">
         <input type="text" name="q" placeholder="Пошук по сайту..." required>
         <button type="submit"><i class="fa-solid fa-search"></i> Пошук</button>
     </form>
