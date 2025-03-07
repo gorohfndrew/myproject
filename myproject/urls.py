@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from ads import views
 from ads.views import home
+from ads.views import register
+
 # API Router
 router = DefaultRouter()
 router.register(r'ads', views.AdViewSet)
@@ -17,7 +19,8 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),  # Подключаем API
     path('api-auth/', include('rest_framework.urls')),  # DRF авторизация
     path('ad/<int:ad_id>/', views.ad_detail, name='ad_detail'),
-    path('', home, name='home'),   # Пошук  
+    path('', home, name='home'),
+     path('register/', register, name='register'),      # Пошук  
 ]
     
 
