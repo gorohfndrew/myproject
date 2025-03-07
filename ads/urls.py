@@ -13,5 +13,5 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),  # Реєстрація
     path('about/', views.about, name='about'),  # Про нас
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),  # Політика конфіденційності
-    path('search_results/', views.search_view, name='search_results'),  # Пошук
+    path('search_results/', views.search_view, name='search_results'), 
 ]

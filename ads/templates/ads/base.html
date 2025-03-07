@@ -138,6 +138,9 @@ a:hover {
 <body>
     <header>
         <nav>
+            <a href="{% url 'home' %}"> <!-- Ссылка на главную -->
+                <img src="{% static 'img/logo.png' %}" alt="Лісова Браттія" style="height: 300px;">
+            </a>
             <ul><li><a href="{% url 'ads:site_rules' %}">Правила</a></li>
                 <li><a href="{% url 'ads:ads_list' %}">Оголошення</a></li>
                 <li><a href="{% url 'ads:about' %}">Про нас</a></li>
