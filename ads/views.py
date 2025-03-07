@@ -193,7 +193,7 @@ def register(request):
     else:
         form = RegistrationForm()
 
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'ads/register.html', {'form': form})
 
 def home(request):
     return render(request, 'ads/home.html') 
