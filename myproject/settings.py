@@ -155,3 +155,4 @@ LOGGING = {
 
 # Настройка пользовательской модели
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
