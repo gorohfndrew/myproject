@@ -7,6 +7,17 @@ from django.contrib import admin
 
 User = get_user_model()
 
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'phone_number')  # Отображаем пользователя и телефон
+    search_fields = ('user__username', 'phone_number')  # Добавляем поиск
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=15, verbose_name="Номер телефона", blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.phone_number}"
+
 # Категория объявления
 class Category(models.Model):
     name = models.CharField(max_length=255)

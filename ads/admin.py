@@ -1,6 +1,27 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Ad, Category
+from django.contrib import admin
+from .models import Profile
+from django.contrib.auth.admin import UserAdmin
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ("user", "phone_number")  # Показываем номер в админке
+    search_fields = ("user__username", "phone_number")
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = "Дополнительная информация"
+
+class CustomUserAdmin(UserAdmin):
+    inlines = (ProfileInline,)  # Встраиваем профиль в UserAdmin
+    list_display = ('username', 'email', 'get_phone_number', 'is_staff')
+
+    def get_phone_number(self, obj):
+        return obj.profile.phone_number if hasattr(obj, 'profile') else "Нет номера"
+    get_phone_number.short_description = "Номер телефона"
+
+
 
 
 # Админка для работы с категориями
