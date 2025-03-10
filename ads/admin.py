@@ -4,6 +4,12 @@ from .models import Ad, Category
 from django.contrib import admin
 from .models import Profile
 from django.contrib.auth.admin import UserAdmin
+
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'phone_number')  # Показывает поля в списке
+    search_fields = ('user__username', 'phone_number')  # Добавляет поиск по полям
+    fields = ('user', 'phone_number')  # Указывает, какие поля отображать на странице редактирования
+
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
