@@ -14,7 +14,7 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User  # Указываем вашу модель пользователя
-        fields = ["username", "phone"]  # Убираем email, если не требуется
+        fields = ["username", "email", "password"]  
 
     def clean(self):
         cleaned_data = super().clean()
