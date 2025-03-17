@@ -4,7 +4,13 @@ from .models import Category
 from django.core.exceptions import ValidationError
 from .models import CustomUser
 
-
+class CustomUserForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name', 'phone_number', 'password']
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
 
 class RegistrationForm(forms.ModelForm):
     phone = forms.CharField(max_length=20)
