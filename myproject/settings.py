@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_extensions',
     'rest_framework',
+    
      
      
 ]
@@ -155,5 +156,6 @@ LOGGING = {
 }
 
 # Настройка пользовательской модели
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db' 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+AUTH_USER_MODEL = 'ads.CustomUser'

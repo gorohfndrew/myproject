@@ -1,20 +1,26 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Ad, Category
-from django.contrib import admin
-from .models import Profile
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+from .models import CustomUser, Profile, Category, Ad
+
+
+
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'phone_number')  # Показывает поля в списке
     search_fields = ('user__username', 'phone_number')  # Добавляет поиск по полям
     fields = ('user', 'phone_number')  # Указывает, какие поля отображать на странице редактирования
 
+
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
     verbose_name_plural = "Дополнительная информация"
+    fields = ('phone_number',)  # Поле для редактирования номера телефона
 
+
+@admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     inlines = (ProfileInline,)
     list_display = ('username', 'email', 'get_phone_number', 'is_staff')
@@ -29,7 +35,7 @@ class CustomUserAdmin(UserAdmin):
 # Админка для работы с категориями
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'icon')
-    prepopulated_fields = {'slug': ('name',)}  
+    prepopulated_fields = {'slug': ('name',)}  # Автозаполнение поля slug по полю name
 
 
 # Админка для работы с объявлениями
@@ -48,7 +54,7 @@ class AdAdmin(admin.ModelAdmin):
     def video_tag(self, obj):
         """Отображает видео в админке."""
         if obj.video:
-            return mark_safe(f'<video width="100" controls><source src="{obj.video.url}" type="video/mp4">Ваш браузер не поддерживает видео.</video>')
+            return mark_safe(f'<video width="100" controls><source src="{obj.video.url}" type="video/mp4">Ваш браузер не поддерживает видео.</video>')  
         return 'Нет видео'
     video_tag.short_description = "Видео"
 
@@ -58,6 +64,9 @@ class AdAdmin(admin.ModelAdmin):
     is_premium_active.short_description = 'Премиум активен'
 
 
-# Регистрация моделей в админке
+# Удаляем стандартную регистрацию User, чтобы использовать CustomUserAdmin
+
+
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Ad, AdAdmin)

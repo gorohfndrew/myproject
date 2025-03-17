@@ -12,11 +12,18 @@ from .models import Ad, Category
 from .serializers import AdSerializer, CategorySerializer
 from .forms import AdForm
 from django.http import JsonResponse
-from .models import User
+from .models import CustomUser
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
+
+User = get_user_model()  # ✅ Определяем модель пользователя
+
+def user_list():
+    users = User.objects.all()  # Теперь можно работать с пользователями
+    return users
 class UserListView(ListView):
-    model = User
+    model = CustomUser
     template_name = "ads/user_list.html"
     context_object_name = "users"
     paginate_by = 10

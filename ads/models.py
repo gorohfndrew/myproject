@@ -4,19 +4,54 @@ from django.utils.safestring import mark_safe
 from django.utils import timezone
 from django.utils.text import slugify
 from django.contrib import admin
+from django.contrib.admin.models import LogEntry
+from django.contrib.auth.models import AbstractUser, Group, Permission
+from phonenumber_field.modelfields import PhoneNumberField  # Для использования PhoneNumberField
+from django.conf import settings  # ✅ Импортируем settings
+from django.contrib.auth.models import AbstractUser
 
-User = get_user_model()
 
-class ProfileAdmin(admin.ModelAdmin):
+class CustomUser(AbstractUser):
+    phone_number = PhoneNumberField(blank=True, null=True)  # Использование PhoneNumberField
+    groups = models.ManyToManyField(
+        "auth.Group",
+        related_name="customuser_groups",
+        blank=True,
+    )
+    user_permissions = models.ManyToManyField(
+        "auth.Permission",
+        related_name="customuser_permissions",
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.username
+
+    def delete(self, *args, **kwargs):
+        # Удаляем все логи, связанные с этим пользователем
+        LogEntry.objects.filter(user_id=self.id).delete()
+        super().delete(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Custom User'
+        verbose_name_plural = 'Custom Users'
+
+class ProfileAdmin(admin.ModelAdmin):        
     list_display = ('user', 'phone_number')  # Отображаем пользователя и телефон
     search_fields = ('user__username', 'phone_number')  # Добавляем поиск
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # ✅ Теперь правильно
     phone_number = models.CharField(max_length=15, verbose_name="Номер телефона", blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.phone_number}"
+    
+class NewModel(models.Model):
+    name = models.CharField(max_length=100)
+
+    
+ 
 
 # Категория объявления
 class Category(models.Model):
@@ -41,7 +76,7 @@ class Category(models.Model):
 # Объявление
 class Ad(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='ads')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Владелец объявления
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # ✅ Используем AUTH_USER_MODEL
 
     title = models.CharField(max_length=255)
     description = models.TextField()
