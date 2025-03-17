@@ -16,6 +16,7 @@ from .models import CustomUser
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
+from .forms import CustomUserForm
 
 User = get_user_model()  # ✅ Определяем модель пользователя
 
@@ -194,13 +195,13 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)  # Авторизация пользователя после регистрации
-            return redirect('ads_list')  # Перенаправление на страницу со списком объявлений
+            user = form.save()  # Створення нового користувача
+            login(request, user)  # Авторизація користувача після реєстрації
+            return redirect('ads_list')  # Перенаправлення на список оголошень
     else:
         form = RegistrationForm()
 
     return render(request, 'ads/register.html', {'form': form})
 
 def home(request):
-    return render(request, 'ads/home.html') 
+    return render(request, 'ads/home.html')

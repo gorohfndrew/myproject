@@ -2,8 +2,7 @@ from django import forms
 from .models import Ad
 from .models import Category
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User
-
+from .models import CustomUser
 
 
 
@@ -13,7 +12,7 @@ class RegistrationForm(forms.ModelForm):
     password_confirm = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
-        model = User  # Указываем вашу модель пользователя
+        model =  CustomUser # Указываем вашу модель пользователя
         fields = ["username", "email", "password"]  
 
     def clean(self):
