@@ -1,25 +1,17 @@
 from django import forms
-from .models import Ad
-from .models import Category
+from .models import Ad, Category, CustomUser, Profile
 from django.core.exceptions import ValidationError
 from .models import CustomUser
 
-class CustomUserForm(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = ['username', 'email', 'first_name', 'last_name', 'phone_number', 'password']
-        widgets = {
-            'password': forms.PasswordInput(),
-        }
 
 class RegistrationForm(forms.ModelForm):
-    phone = forms.CharField(max_length=20)
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_confirm = forms.CharField(widget=forms.PasswordInput)
+    phone = forms.CharField(max_length=20, required=True, label="Номер телефона")
+    password = forms.CharField(widget=forms.PasswordInput, label="Пароль")
+    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Подтверждение пароля")
 
     class Meta:
-        model =  CustomUser # Указываем вашу модель пользователя
-        fields = ["username", "email", "password"]  
+        model = CustomUser
+        fields = ["username", "email", "password"]
 
     def clean(self):
         cleaned_data = super().clean()
@@ -28,7 +20,7 @@ class RegistrationForm(forms.ModelForm):
 
         if password != password_confirm:
             raise ValidationError("Пароли не совпадают.")
-        
+
         return cleaned_data
 
     def save(self, commit=True):
@@ -36,7 +28,16 @@ class RegistrationForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password"])  # Хешируем пароль
         if commit:
             user.save()
+            Profile.objects.update_or_create(user=user, defaults={"phone_number": self.cleaned_data["phone"]})
         return user
+    
+class CustomUserForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'password']
+        widgets = {
+            'password': forms.PasswordInput(),
+        }    
 class CategoryForm(forms.Form):
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),  # Здесь подтягиваются все категории из базы данных
