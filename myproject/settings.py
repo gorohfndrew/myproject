@@ -24,8 +24,7 @@ logging.basicConfig(level=logging.DEBUG)
 logging.debug(f"SECRET_KEY: {SECRET_KEY}")
 
 DEBUG = env.bool("DEBUG", default=True)
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
-
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(",")
 INSTALLED_APPS = [
     'ads',  
     'django.contrib.admin',
