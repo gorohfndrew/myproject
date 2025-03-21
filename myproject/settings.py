@@ -4,18 +4,22 @@ import environ
 from dotenv import load_dotenv
 import dj_database_url
 import logging
+from pathlib import Path
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Создаём экземпляр environ и загружаем переменные окружения
 env = environ.Env()
-env_file = BASE_DIR / '.env'  # Указываем путь к .env файлу
-environ.Env.read_env(env_file)  # Загрузка переменных окружения из файла .env
+env_file = os.path.join(BASE_DIR, ".env")
 
-# Читаем переменные с использованием environ
-SECRET_KEY = env("SECRET_KEY")
+if os.path.exists(env_file):
+    environ.Env.read_env(env_file)  # Завантажуємо .env, якщо він є
+
+# Завантажуємо SECRET_KEY
+SECRET_KEY = env("SECRET_KEY", default="your-default-secret-key")
+
 if not SECRET_KEY:
-    raise ValueError("SECRET_KEY is not set in the environment variables.")  
+    raise ValueError("SECRET_KEY is not set in the environment variables.") 
 logging.basicConfig(level=logging.DEBUG)
 logging.debug(f"SECRET_KEY: {SECRET_KEY}")
 
