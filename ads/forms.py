@@ -11,7 +11,7 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ["username", "email", "password"]  # Тільки ці поля потрібні для реєстрації
+        fields = ["username", "email", "password", "phone_number"]  # Тільки ці поля потрібні для реєстрації
 
     def clean(self):
         cleaned_data = super().clean()
