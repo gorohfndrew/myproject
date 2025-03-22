@@ -3,6 +3,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import CustomUser, Profile, Category, Ad
+from django.contrib.admin import TabularInline
 
 
 

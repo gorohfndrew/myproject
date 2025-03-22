@@ -5,13 +5,12 @@ from .models import CustomUser
 
 
 class RegistrationForm(forms.ModelForm):
-    # Поле для номера телефону не додаємо, оскільки воно є в моделі CustomUser
     password = forms.CharField(widget=forms.PasswordInput, label="Пароль")
     password_confirm = forms.CharField(widget=forms.PasswordInput, label="Підтвердження пароля")
 
     class Meta:
         model = CustomUser
-        fields = ["username", "email", "password", "phone_number"]  # Тільки ці поля потрібні для реєстрації
+        fields = ["username", "email", "password", "phone_number"]  # Включаємо phone_number
 
     def clean(self):
         cleaned_data = super().clean()
@@ -27,11 +26,8 @@ class RegistrationForm(forms.ModelForm):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password"])  # Хешуємо пароль
         if commit:
-            user.save()
-            # Оновлення або створення профілю для користувача, зберігаючи номер телефону
-            # Залишаємо номер телефону як частину профілю, не полягаючи на форму
-            user.phone_number = self.cleaned_data.get("phone_number")  # Зберігаємо номер телефону
-            user.save()
+            user.save()  # Спочатку зберігаємо користувача
+            # Номер телефону вже знаходиться в полі користувача, тому його додавати не потрібно
         return user
 class CustomUserForm(forms.ModelForm):
     class Meta:
