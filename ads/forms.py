@@ -7,6 +7,7 @@ from .models import CustomUser
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label="Пароль")
     password_confirm = forms.CharField(widget=forms.PasswordInput, label="Підтвердження пароля")
+    phone_number = forms.CharField(max_length=15, required=True, label="Номер телефону")  # добавляем поле для номера телефона
 
     class Meta:
         model = CustomUser
@@ -23,11 +24,19 @@ class RegistrationForm(forms.ModelForm):
         return cleaned_data
 
     def save(self, commit=True):
+        # Сначала создаем пользователя
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])  # Хешуємо пароль
+        user.set_password(self.cleaned_data["password"])  # Хешируем пароль
+
         if commit:
-            user.save()  # Спочатку зберігаємо користувача
-            # Номер телефону вже знаходиться в полі користувача, тому його додавати не потрібно
+            user.save()
+
+            # Теперь создаем или обновляем профиль с номером телефона
+            phone_number = self.cleaned_data.get("phone_number")
+            profile, created = Profile.objects.get_or_create(user=user)
+            profile.phone_number = phone_number  # Сохраняем номер телефона в профиль
+            profile.save()
+
         return user
 class CustomUserForm(forms.ModelForm):
     class Meta:
