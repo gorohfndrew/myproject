@@ -5,13 +5,13 @@ from .models import CustomUser
 
 
 class RegistrationForm(forms.ModelForm):
-    phone = forms.CharField(max_length=20, required=True, label="Номер телефона")
+    phone = forms.CharField(max_length=20, required=True, label="Номер телефону")
     password = forms.CharField(widget=forms.PasswordInput, label="Пароль")
-    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Подтверждение пароля")
+    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Підтвердження пароля")
 
     class Meta:
         model = CustomUser
-        fields = ["username", "email", "password"]
+        fields = ["username", "email", "password", "phone_number"]  # Додаємо phone_number в форму
 
     def clean(self):
         cleaned_data = super().clean()
@@ -19,16 +19,17 @@ class RegistrationForm(forms.ModelForm):
         password_confirm = cleaned_data.get("password_confirm")
 
         if password != password_confirm:
-            raise ValidationError("Пароли не совпадают.")
+            raise ValidationError("Паролі не співпадають.")
 
         return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])  # Хешируем пароль
+        user.set_password(self.cleaned_data["password"])  # Хешуємо пароль
         if commit:
-            user.save()
-            Profile.objects.update_or_create(user=user, defaults={"phone_number": self.cleaned_data["phone"]})
+            user.save()  # Зберігаємо користувача з паролем
+            user.phone_number = self.cleaned_data["phone"]  # Зберігаємо номер телефону
+            user.save()  # Знову зберігаємо користувача після оновлення номера телефону
         return user
     
 class CustomUserForm(forms.ModelForm):

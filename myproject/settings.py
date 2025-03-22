@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_extensions',
     'rest_framework',
-    
+    'phonenumber_field',
      
      
 ]
