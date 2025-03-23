@@ -10,61 +10,108 @@
     {% load static %}
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-            text-align: center;
-            background: #f4f4f4;
-        }
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: #f4f4f4;
+}
 
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border: 2px solid gold; /* Золотая окантовка */
-        }
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-        img {
-            max-width: 100%;
-            border-radius: 10px;
-        }
 
-        .btn {
-            display: inline-block;
-            padding: 10px 15px;
-            background: #ffcc00; /* Золотой цвет кнопки */
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            transition: background 0.3s;
-        }
 
-        .btn:hover {
-            background: #e6a800; /* Темный золотой при наведении */
-        }
+img:not(.logo), .video-container video, .video-container iframe {
+    width: 100%;
+    max-width: 500px;
+    max-height: 700px;
+    object-fit: cover;
+    height: auto;
+    border-radius: 10px;
+}
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #007bff; /* Стандартный цвет кнопки */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
 
-        /* Для видео */
-        .video-container {
-            margin: 20px 0;
-        }
+.btn:hover {
+    background: #007bff;
+}
 
-        .premium-label {
-            display: inline-block;
-            background-color: #ffcc00; /* Золотой цвет */
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-top: 15px;
-            font-size: 18px;
-        }
+/* Для видео */
+.video-container {
+    margin: 20px 0;
+}
+
+/* Премиум-объявления */
+.premium {
+    border: 2px solid gold;
+    background-color: #fff8e1;
+}
+
+
+.premium .btn {
+    background: #ffcc00; /* Золотая кнопка только для премиум-объявлений */
+}
+
+.premium .btn:hover {
+    background: #e6a800;
+}
+
+.ad-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.premium-label {
+    background-color: gold;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid #daa520;
+}
+
+.popular-label {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid #0056b3;
+}
+
+.standard-label {
+    background-color: #6c757d;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid #5a6268;
+}
+
     </style>
 </head>
-<div class="container">
+<div class="container {% if ad.is_premium %}premium{% endif %}">
     <h1>{{ ad.title }}</h1>
     
     <!-- Отображение изображения -->

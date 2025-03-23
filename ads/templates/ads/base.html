@@ -133,20 +133,24 @@ a:hover {
     height: auto;
     border-radius: 10px; /* Скругление углов (по желанию) */
 }
+.logo {
+    width: 300px;
+    height: auto;
+    max-width: none;
+}
     </style>
 </head>
 <body>
     <header>
         <nav>
             <a href="{% url 'home' %}"> <!-- Ссылка на главную -->
-                <img src="{% static 'img/logo.png' %}" alt="Лісова Браттія" style="height: 300px;">
+                <img src="{% static 'img/logo.png' %}" alt="Браттія"class="logo">
             </a>
             <ul><li><a href="{% url 'ads:site_rules' %}">Правила</a></li>
-                <li><a href="{% url 'ads:ads_list' %}">Оголошення</a></li>
                 <li><a href="{% url 'ads:about' %}">Про нас</a></li>
                 <li><a href="{% url 'ads:privacy_policy' %}">Політика конфіденційності</a></li>
-                
                 <li><a href="{% url 'ads:categories' %}">Категорії</a></li>
+                <li><a href="{% url 'ads:ads_list' %}">Оголошення</a></li>
 <li>
     <form action="{% url 'ads:search_results' %}" method="GET" class="search-form">
         <input type="text" name="q" placeholder="Пошук по сайту..." required>
