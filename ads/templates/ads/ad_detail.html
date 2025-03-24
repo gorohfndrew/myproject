@@ -18,6 +18,7 @@
 }
 
 .container {
+    position: relative;
     max-width: 600px;
     margin: auto;
     background: white;
@@ -59,7 +60,7 @@ img:not(.logo), .video-container video, .video-container iframe {
 /* Премиум-объявления */
 .premium {
     border: 2px solid gold;
-    background-color: #fff8e1;
+    
 }
 
 
@@ -79,36 +80,40 @@ img:not(.logo), .video-container video, .video-container iframe {
     margin-top: 10px;
 }
 
-.premium-label {
-    background-color: gold;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: 2px solid #daa520;
+.vip-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-right: 40px solid transparent;
+    border-bottom: 40px solid transparent;
+    border-left: 40px solid gold;
 }
 
-.popular-label {
-    background-color: #007bff;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: 2px solid #0056b3;
-}
-
+/* Треугольник для "Стандарт" */
 .standard-label {
-    background-color: #6c757d;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: 2px solid #5a6268;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-right: 40px solid transparent;
+    border-bottom: 40px solid transparent;
+    border-left: 40px solid gray; /* Серый цвет */
 }
 
+/* Треугольник для "Популярный" */
+.popular-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-right: 40px solid transparent;
+    border-bottom: 40px solid transparent;
+    border-left: 40px solid blue; /* Синий цвет */
+}
     </style>
 </head>
 <div class="container {% if ad.is_premium %}premium{% endif %}">
@@ -129,8 +134,12 @@ img:not(.logo), .video-container video, .video-container iframe {
     
     <!-- Проверка, является ли объявление премиум -->
     {% if ad.is_premium %}
-        <span class="premium-label">Премиум</span>
-    {% endif %}
+    <span class="vip-label"></span>
+{% elif ad.is_popular %}
+    <span class="popular-label"></span>
+{% else %}
+    <span class="standard-label"></span>
+{% endif %}
     
     <!-- Отображение видео -->
     {% if ad.video %}

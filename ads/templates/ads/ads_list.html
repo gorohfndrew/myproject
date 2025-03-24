@@ -277,15 +277,27 @@
     position: relative; /* Для правильного позиционирования метки VIP */
 }
 .popular-label {
-    background-color: #007bff;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: 2px solid #0056b3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-right: 40px solid transparent;
+    border-bottom: 40px solid transparent;
+    border-left: 40px solid blue; /* Синий цвет */
 }
 
+/* Стандарт (Серый) */
+.standard-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-right: 40px solid transparent;
+    border-bottom: 40px solid transparent;
+    border-left: 40px solid gray; /* Серый цвет */
+}
         .standard-label {
     background-color: #6c757d;
     color: white;
@@ -360,9 +372,9 @@
                         {% if ad.is_premium and ad.premium_until %}
                             <span class="vip-label"></span>
                         {% elif ad.is_popular %}
-                            <span class="popular-label">Популярный</span>
+                            <span class="popular-label"></span>
                         {% else %}
-                            <span class="standard-label">Стандарт</span>
+                            <span class="standard-label"></span>
                         {% endif %}
                     </div>
                 </div>
