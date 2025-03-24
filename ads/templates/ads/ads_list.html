@@ -329,7 +329,7 @@
 </div>
 {% if not user.is_authenticated %}
     <!-- Кнопка регистрации для незарегистрированных пользователей -->
-    <a href="{% url 'users:register' %}" class="floating-btn register-btn">Регистрация</a>
+    <a href="{% url 'ads:register' %}" class="floating-btn register-btn">Регистрация</a>
 {% endif %}
 <a href="{% url 'ads:add_ad' %}" class="floating-btn  right-btn">+ оголошення</a>
 <a href="{% url 'ads:categories' %}" class="floating-btn left-btn">Категории</a>
