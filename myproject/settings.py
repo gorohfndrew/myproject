@@ -23,6 +23,12 @@ if not SECRET_KEY:
 logging.basicConfig(level=logging.DEBUG)
 logging.debug(f"SECRET_KEY: {SECRET_KEY}")
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUD_NAME'),
+    'API_KEY': os.getenv('API_KEY'),
+    'API_SECRET': os.getenv('API_SECRET'),
+}
+
 DEBUG = env.bool("DEBUG", default=True)
 ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(",")
 INSTALLED_APPS = [
@@ -37,6 +43,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'phonenumber_field',
+    'cloudinary',
+    'cloudinary_storage',
      
      
 ]
@@ -138,6 +146,7 @@ REST_FRAMEWORK = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Настройки логирования
 LOGGING = {
