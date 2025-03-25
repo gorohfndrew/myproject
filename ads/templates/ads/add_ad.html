@@ -16,6 +16,8 @@
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            
+            
 
             <div class="form-group">
                 <label for="id_category">Категорія:</label>
@@ -36,16 +38,15 @@
                 <label for="id_price">Ціна:</label>
                 {{ form.price }}
             </div>
-
+            
             <div class="form-group">
                 <label for="id_image">Зображення:</label>
                 {{ form.image }}
             </div>
 
             <div class="form-group">
-                <label for="id_video">Завантажити відео:</label>
-                <input type="file" name="video" id="id_video" accept="video/*">
-                <p class="help-text">Завантажте відео файл. (максимальний розмір: 100MB)</p>
+               
+                <p class="help-text"></p>
             </div>
             <div class="form-group">
                 <label for="id_is_standard">Стандарт:</label>

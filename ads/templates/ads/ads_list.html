@@ -320,6 +320,24 @@
 .ad-card:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
+.ad-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.user-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-city {
+    font-size: 14px;
+    color: #777;
+}
     </style>
 </head>
 <body>
@@ -347,6 +365,7 @@
                     {% if ad.image %}
                         <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
                     {% endif %}
+                    
 
                     {% if ad.video %}
                         <div class="video-container">
@@ -359,6 +378,7 @@
                     
                     <h3>{{ ad.title }}</h3>
                     <p>Ціна: <strong>{{ ad.price }} грн.</strong></p>
+                    <p>Опис: <strong>{{ ad.description }}</strong></p>
 
                     <div class="ad-buttons">
                         {% if ad.is_premium and ad.premium_until %}
