@@ -173,5 +173,5 @@ LOGGING = {
 # Настройка пользовательской модели
 SESSION_ENGINE = 'django.contrib.sessions.backends.db' 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-MEDIA_URL = f"https://res.cloudinary.com/{os.getenv('CLOUDINARY_CLOUD_NAME')}/"
+MEDIA_URL = f"https://res.cloudinary.com/{env('CLOUDINARY_CLOUD_NAME')}/"
 AUTH_USER_MODEL = 'ads.CustomUser'
