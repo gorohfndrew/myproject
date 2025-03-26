@@ -123,7 +123,7 @@ img:not(.logo), .video-container video, .video-container iframe {
     {% if ad.image %}
         <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
     {% else %}
-        <img src="{% static 'images/no-image.jpg' %}" alt="Нет фото">
+        <img src="{% static 'image/no-image.jpg' %}" alt="Нет фото">
     {% endif %}
     
     <!-- Отображение цены -->

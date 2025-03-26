@@ -65,14 +65,23 @@ def add_ad(request):
         if form.is_valid():
             ad = form.save(commit=False)
             ad.user = request.user
+            
+            # 🛠 Обрабатываем изображение
+            image_file = request.FILES.get('image')  
+            if image_file:
+                ad.image = image_file  # Сохраняем в Cloudinary
+            
+            # 🛠 Проверяем видео
             video_file = request.FILES.get('video')
             if video_file and video_file.size > 104857600:  # 100MB
                 form.add_error('video', 'Максимальный размер видео 100MB.')
             else:
-                ad.save()
+                ad.save()  # Теперь изображение точно сохранится!
                 return redirect('ads_list')
+
     else:
         form = AdForm()
+
     return render(request, 'ads/add_ad.html', {'form': form})
 
 
