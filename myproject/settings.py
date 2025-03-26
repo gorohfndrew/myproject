@@ -4,7 +4,6 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 import environ
-from dotenv import load_dotenv
 import dj_database_url
 import logging
 from pathlib import Path
@@ -18,8 +17,6 @@ env_file = os.path.join(BASE_DIR, ".env")
 if os.path.exists(env_file):
     environ.Env.read_env(env_file)  # Завантажуємо .env, якщо він є
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
-load_dotenv(dotenv_path)
 # Завантажуємо SECRET_KEY
 SECRET_KEY = env("SECRET_KEY", default="your-default-secret-key")
 
