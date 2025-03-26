@@ -121,7 +121,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # для Render
-MEDIA_URL = f"https://res.cloudinary.com/{os.getenv('CLOUDINARY_CLOUD_NAME')}/"
+
 
 # Медиа файлы
 MEDIA_URL = '/media/'
@@ -176,4 +176,5 @@ LOGGING = {
 # Настройка пользовательской модели
 SESSION_ENGINE = 'django.contrib.sessions.backends.db' 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MEDIA_URL = f"https://res.cloudinary.com/{os.getenv('CLOUDINARY_CLOUD_NAME')}/"
 AUTH_USER_MODEL = 'ads.CustomUser'
