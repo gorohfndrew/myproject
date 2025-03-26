@@ -54,18 +54,26 @@ class CategoryForm(forms.Form):
 class AdForm(forms.ModelForm):
     class Meta:
         model = Ad
-        fields = ['category', 'title', 'description', 'price', 'image', 'video', 'is_premium', 'premium_until','is_standard', 'is_popular', 'is_boosted']
+        fields = ['category', 'title', 'description', 'price', 'image', 'video', 'is_premium', 'premium_until', 'is_standard', 'is_popular', 'is_boosted']
         widgets = {
             'premium_until': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'description': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
+            'price': forms.TextInput(attrs={'value': 'Договореная'})  # ✅ Значение по умолчанию
         }
 
     def clean_price(self):
         price = self.cleaned_data.get('price')
-        if price <= 0:
-            raise forms.ValidationError("Цена должна быть больше нуля.")
-        return price
 
+        if price == "Договірна":
+            return "Договірна"  # ✅ Возвращаем строку, а не None
+
+        try:
+            price = float(price)  # ✅ Преобразуем в число
+            if price <= 0:
+                raise forms.ValidationError("Цена должна быть больше нуля.")
+            return str(price)  # ✅ Возвращаем строку, так как price — CharField
+        except (ValueError, TypeError):
+            raise forms.ValidationError("Введите число или оставьте 'Договореная'.")
     def clean_video(self):
         video = self.cleaned_data.get('video')
         if video:

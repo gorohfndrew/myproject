@@ -82,7 +82,7 @@ class Ad(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
 
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    price = models.CharField(max_length=10, default="Договірна")  
     image = CloudinaryField('image', blank=True, null=True)
     createdimage = models.ImageField(upload_to='ads/', blank=True, null=True)
     video = models.FileField(upload_to='ads_videos/', null=True, blank=True)
