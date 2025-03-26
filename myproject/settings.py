@@ -15,7 +15,7 @@ env = environ.Env()
 env_file = os.path.join(BASE_DIR, ".env")
 
 if os.path.exists(env_file):
-    environ.Env.read_env(env_file)  # Завантажуємо .env, якщо він є
+    env.read_env()  # Завантажуємо .env, якщо він є
 
 # Завантажуємо SECRET_KEY
 SECRET_KEY = env("SECRET_KEY", default="your-default-secret-key")
