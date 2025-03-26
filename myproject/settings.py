@@ -26,9 +26,9 @@ logging.basicConfig(level=logging.DEBUG)
 logging.debug(f"SECRET_KEY: {SECRET_KEY}")
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUD_NAME'),
-    'API_KEY': os.getenv('API_KEY'),
-    'API_SECRET': os.getenv('API_SECRET'),
+    'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': env('CLOUDINARY_API_KEY'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET'),
 }
 
 DEBUG = env.bool("DEBUG", default=True)
