@@ -286,7 +286,17 @@
     border-bottom: 40px solid transparent;
     border-left: 40px solid blue; /* Синий цвет */
 }
-
+.popular-label::after { 
+    content: "pop";
+    position: absolute;
+    top: 50%; /* Центрируем по вертикали */
+    left: 50%; /* Центрируем по горизонтали */
+    transform: translate(-170%, +50%) rotate(-45deg); /* Центрируем и поворачиваем текст */
+    font-size: 12px; /* Размер шрифта */
+    font-weight: bold;
+    color: white; /* Белый цвет текста */
+    white-space: nowrap; /* Запрещаем перенос текста на новую строку */
+}
 /* Стандарт (Серый) */
 .standard-label {
     position: absolute;
@@ -297,6 +307,17 @@
     border-right: 40px solid transparent;
     border-bottom: 40px solid transparent;
     border-left: 40px solid gray; /* Серый цвет */
+}
+.standard-label::after { 
+    content: "sta"; 
+    position: absolute;
+    top: 50%; /* Центрируем по вертикали */
+    left: 50%; /* Центрируем по горизонтали */
+    transform: translate(-200%, +50%) rotate(-45deg); /* Центрируем и поворачиваем текст */
+    font-size: 12px; /* Размер шрифта */
+    font-weight: bold;
+    color: white; /* Белый цвет текста */
+    white-space: nowrap; /* Запрещаем перенос текста на новую строку */
 }
         
         .ad-link {

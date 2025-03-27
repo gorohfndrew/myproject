@@ -23,7 +23,7 @@
     margin: auto;
     background: white;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -40,37 +40,46 @@ img:not(.logo), .video-container video, .video-container iframe {
 .btn {
     display: inline-block;
     padding: 10px 15px;
-    background: #007bff; /* Стандартный цвет кнопки */
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 0;
     margin-top: 20px;
     transition: background 0.3s;
 }
-
-.btn:hover {
-    background: #007bff;
-}
-
-/* Для видео */
 .video-container {
     margin: 20px 0;
 }
-
-/* Премиум-объявления */
 .premium {
     border: 2px solid gold;
-    
 }
 
-
+/* 🔥 Премиум (Жёлтая кнопка) */
 .premium .btn {
-    background: #ffcc00; /* Золотая кнопка только для премиум-объявлений */
+    background: #ffcc00;
 }
 
 .premium .btn:hover {
     background: #e6a800;
 }
+
+/* 🔹 Популярное объявление (Синяя кнопка) */
+.popular-label + .btn {
+    background: #007bff;
+}
+
+.popular-label + .btn:hover {
+    background: #0056b3;
+}
+
+/* 🔸 Стандартное объявление (Серая кнопка) */
+.standard-label + .btn {
+    background: #b0b0b0;
+}
+
+.standard-label + .btn:hover {
+    background: #8c8c8c;
+}
+
 
 .ad-buttons {
     display: flex;
@@ -153,7 +162,7 @@ img:not(.logo), .video-container video, .video-container iframe {
     {% endif %}
     
     <!-- Кнопка "Назад" -->
-    <a href="{% url 'ads:ads_list' %}" class="btn">Назад</a>
+    <a href="{% url 'ads:ads_list' %}" class="btn back-btn">Назад</a>
 </div>
 </body>
 {% endblock %}
