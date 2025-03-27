@@ -7,7 +7,8 @@ from .models import CustomUser
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label="Пароль")
     password_confirm = forms.CharField(widget=forms.PasswordInput, label="Підтвердження пароля")
-    phone_number = forms.CharField(max_length=20, required=True, label="Номер телефону")  # добавляем поле для номера телефона
+    phone_number = forms.CharField(max_length=20, required=True, label="Номер телефону")
+    widget=forms.TextInput(attrs={'value': '+380'})  # 👈   # добавляем поле для номера телефона
 
     class Meta:
         model = CustomUser
