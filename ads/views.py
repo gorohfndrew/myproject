@@ -78,6 +78,7 @@ def add_ad(request):
             else:
                 ad.save()  # Теперь изображение точно сохранится!
                 return redirect('ads_list')
+            
 
     else:
         form = AdForm()

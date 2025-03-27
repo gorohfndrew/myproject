@@ -12,17 +12,24 @@
         <div class="categories">
             {% for category in categories %}
                 <a href="{% url 'ads:category_ads' category.slug|slugify %}" class="category">
-                    <i class="fa {% if category.name == 'Тварини' %}fa-paw
-                            {% elif category.name == 'Автомобілі' %}fa-car
-                            {% elif category.name == 'Мотоцикли' %}fa-motorcycleexit()
-                            {% elif category.name == 'Скутери' %}fa-moped
-                            {% elif category.name == 'Мебель' %}fa-couch
-                            {% elif category.name == 'Антикваріат' %}fa-landmark
-                            {% elif category.name == 'Ножі' %}fa-knife-kitchen
-                            {% elif category.name == 'Робота' %}fa-briefcase
-                            {% elif category.name == 'Нерухомість' %}fa-key
-                            {% elif category.name == 'Запчастини' %}fa-wrench
-                            {% endif %}"></i>
+                    <i class="fa 
+    {% if category.name == 'Тварини' %}fa-paw
+    {% elif category.name == 'Автомобілі' %}fa-car
+    {% elif category.name == 'Мотоцикли' %}fa-motorcycle
+    {% elif category.name == 'Скутери' %}fa-bicycle
+    {% elif category.name == 'Мебель' %}fa-couch
+    {% elif category.name == 'Антикваріат' %}fa-landmark
+    {% elif category.name == 'Ножі' %}fa-utensils
+    {% elif category.name == 'Робота' %}fa-briefcase
+    {% elif category.name == 'Нерухомість' %}fa-key
+    {% elif category.name == 'Запчастини' %}fa-wrench
+    {% elif category.name == 'Дім і сад' %}fa-home
+    {% elif category.name == 'Електроніка' %}fa-tv
+    {% elif category.name == 'Бізнес' %}fa-building
+    {% elif category.name == 'Хобі' %}fa-gamepad
+    {% elif category.name == 'Одяг' %}fa-tshirt
+    {% elif category.name == 'Інше' %}fa-box 
+    {% endif %}"></i>
                     {{ category.name }}
                     <span class="count">({{ category.ads.count }})</span> <!-- Лічильник оголошень -->
                 </a>
