@@ -7,8 +7,14 @@ from .models import CustomUser
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label="Пароль")
     password_confirm = forms.CharField(widget=forms.PasswordInput, label="Підтвердження пароля")
-    phone_number = forms.CharField(max_length=20, required=True, label="Номер телефону")
-    widget=forms.TextInput(attrs={'value': '+380'})  # 👈   # добавляем поле для номера телефона
+    
+    # Устанавливаем начальное значение для поля phone_number через widget
+    phone_number = forms.CharField(
+        max_length=20, 
+        required=True, 
+        label="Номер телефону", 
+        widget=forms.TextInput(attrs={'placeholder': '+380', 'value': '+380'})
+    )
 
     class Meta:
         model = CustomUser
@@ -22,10 +28,6 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Номер телефона должен начинаться с +380.')
         
         return phone_number
-
-    class Meta:
-        model = CustomUser
-        fields = ["username", "email", "password", "phone_number"]  # Включаємо phone_number
 
     def clean(self):
         cleaned_data = super().clean()
@@ -50,8 +52,6 @@ class RegistrationForm(forms.ModelForm):
             profile, created = Profile.objects.get_or_create(user=user)
             profile.phone_number = phone_number  # Сохраняем номер телефона в профиль
             profile.save()
-
-        return user
 class CustomUserForm(forms.ModelForm):
     class Meta:
         model = CustomUser
