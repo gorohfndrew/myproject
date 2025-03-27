@@ -10,6 +10,7 @@ from phonenumber_field.modelfields import PhoneNumberField  # Для испол�
 from django.conf import settings  # ✅ Импортируем settings
 from django.contrib.auth.models import AbstractUser
 from cloudinary.models import CloudinaryField
+from django.core.validators import RegexValidator
 
 
 class CustomUser(AbstractUser):
@@ -44,7 +45,9 @@ class ProfileAdmin(admin.ModelAdmin):
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # ✅ Теперь правильно
     phone_number = models.CharField(max_length=20, verbose_name="Номер телефона", blank=True, null=True,default="Нет номера")
-
+    validators=[
+            RegexValidator(r'^\+380\d{9}$', 'Номер телефона должен начинаться с +380 и состоять из 13 цифр.')
+        ]
     def __str__(self):
         return f"{self.user.username} - {self.phone_number}"
     

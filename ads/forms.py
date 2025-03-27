@@ -12,6 +12,19 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
+        fields = ["username", "email", "password", "phone_number"]
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+        
+        # Проверим, что номер телефона начинается с +380
+        if not phone_number.startswith('+380'):
+            raise forms.ValidationError('Номер телефона должен начинаться с +380.')
+        
+        return phone_number
+
+    class Meta:
+        model = CustomUser
         fields = ["username", "email", "password", "phone_number"]  # Включаємо phone_number
 
     def clean(self):
