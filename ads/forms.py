@@ -5,53 +5,31 @@ from .models import CustomUser
 
 
 class RegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label="Пароль")
-    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Підтвердження пароля")
-    
-    # Устанавливаем начальное значение для поля phone_number через widget
     phone_number = forms.CharField(
-        max_length=20, 
-        required=True, 
-        label="Номер телефону", 
+        max_length=20,
+        required=True,
+        label="Номер телефону",
         widget=forms.TextInput(attrs={'placeholder': '+380', 'value': '+380'})
     )
 
     class Meta:
         model = CustomUser
-        fields = ["username", "email", "password", "phone_number"]
+        fields = ["username", "email", "phone_number", "password1", "password2"]
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
-        
-        # Проверим, что номер телефона начинается с +380
         if not phone_number.startswith('+380'):
-            raise forms.ValidationError('Номер телефона должен начинаться с +380.')
-        
+            raise ValidationError('Номер телефону повинен починатися з +380.')
         return phone_number
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        password_confirm = cleaned_data.get("password_confirm")
-
-        if password != password_confirm:
-            raise ValidationError("Паролі не співпадають.")
-
-        return cleaned_data
-
     def save(self, commit=True):
-        # Сначала создаем пользователя
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])  # Хешируем пароль
+        user.set_password(self.cleaned_data["password1"])  # Хешируем пароль
+        user.phone_number = self.cleaned_data["phone_number"]  # Сохраняем номер в пользователя
 
         if commit:
             user.save()
-
-            # Теперь создаем или обновляем профиль с номером телефона
-            phone_number = self.cleaned_data.get("phone_number")
-            profile, created = Profile.objects.get_or_create(user=user)
-            profile.phone_number = phone_number  # Сохраняем номер телефона в профиль
-            profile.save()
+        return user
 class CustomUserForm(forms.ModelForm):
     class Meta:
         model = CustomUser
