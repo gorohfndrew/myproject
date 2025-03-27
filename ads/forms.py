@@ -11,10 +11,20 @@ class RegistrationForm(forms.ModelForm):
         label="Номер телефону",
         widget=forms.TextInput(attrs={'placeholder': '+380', 'value': '+380'})
     )
+    
+    password1 = forms.CharField(
+        label="Пароль",
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"})
+    )
+    
+    password2 = forms.CharField(
+        label="Підтвердження пароля",
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"})
+    )
 
     class Meta:
         model = CustomUser
-        fields = ["username", "email", "phone_number", "password"]
+        fields = ["username", "email", "phone_number"]
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
@@ -22,15 +32,25 @@ class RegistrationForm(forms.ModelForm):
             raise ValidationError('Номер телефону повинен починатися з +380.')
         return phone_number
 
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+
+        if password1 and password2 and password1 != password2:
+            raise ValidationError("Паролі не співпадають.")
+
+        return cleaned_data
+
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password1"])  # Хешируем пароль
-        user.phone_number = self.cleaned_data["phone_number"]  # Сохраняем номер в пользователя
+        user.set_password(self.cleaned_data["password1"])  # Хешуємо пароль
+        user.phone_number = self.cleaned_data["phone_number"]  # Зберігаємо номер у користувача
 
         if commit:
             user.save()
         return user
-class CustomUserForm(forms.ModelForm):
+class CustomUserForm(forms.ModelForm):    
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password']
