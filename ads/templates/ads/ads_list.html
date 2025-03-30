@@ -16,7 +16,32 @@
             background-color: #f4f4f4;
             text-align: center;
         }
+        пропорции изображения, без обрезки */
+/* Стили для контейнера слайдера */
+.mySwiper {
+  width: 100%;
+  height: 400px; /* Фиксированная высота контейнера */
+  margin: 0 auto;
+  overflow: hidden; /* Важно! */
+}
 
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important; /* Принудительная ширина */
+  height: 100% !important; /* Принудительная высота */
+}
+
+.swiper-slide img {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Сохраняет пропорции */
+  object-position: center;
+  display: block; /* Убирает лишние отступы */
+}
         .banner {
             width: 100%;
             min-height: 200px;
@@ -223,6 +248,10 @@
         .step-links a {
             margin: 0 5px;
         }
+       
+
+  
+</style>
     </style>
 </head>
 <body>
@@ -247,10 +276,18 @@
     {% if page_obj %}
         {% for ad in page_obj %}
             <a href="{% url 'ads:ad_detail' ad.id %}" class="ad-link">
-                <div class="ad-card {% if ad.is_premium and ad.premium_until %}vip{% endif %}">
-                    {% for ad_image in ad.images.all %}
-                    <img src="{{ ad_image.image.url }}" alt="Image for {{ ad_image.ad.title }}">
-                    {% endfor %}
+                <div class="ad-card {% if ad.is_premium and ad.premium_until %}vip{% endif %}"> 
+                    <div class="swiper mySwiper">  <!-- Контейнер -->
+                        <div class="swiper-wrapper">
+                            {% for ad_image in ad.images.all %}
+                            <div class="swiper-slide">
+                                <div class="swiper-zoom-container"></div>
+                                <img src="{{ ad_image.image.url }}" alt="Image for {{ ad_image.ad.title }}" class="swiper-image">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="swiper-pagination"></div>  <!-- Точки-индикаторы -->
+                    </div>
                     {% if ad.video %}
                         <div class="video-container">
                             <video controls>
@@ -279,7 +316,41 @@
         <p>Объявлений пока нет.</p>
     {% endif %}
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+ document.addEventListener("DOMContentLoaded", function() {
+    new Swiper('.mySwiper', {  // ✅ Используем класс вашего контейнера
+        // Основные настройки
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 10,
+        grabCursor: true,
+        
+        // Навигация (по желанию)
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        
+        // Пагинация (точки)
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        
+        zoom: {
+    maxRatio: 1.5, // Ограничиваем максимальное увеличение
+    toggle: false // Отключаем двойной клик для зума
+  },
+        
+        // Важные параметры для работы
+        observer: true,
+        observeParents: true,
+        resistance: true,
+        resistanceRatio: 0.85,
+    });
+});
+</script>
 <!-- Пагинация -->
 <div class="pagination">
     <span class="step-links">
