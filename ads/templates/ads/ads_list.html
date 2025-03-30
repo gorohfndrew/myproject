@@ -18,65 +18,52 @@
         }
 
         .banner {
-    width: 100%;
-    min-height: 200px; /* Уменьшена минимальная высота баннера */
-    background: url('{% static "images/banner.jpg" %}') no-repeat center center;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 25px; /* Уменьшен размер шрифта для баннера */
-    font-weight: bold;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-.container {
-    max-width: 600px;
-    margin: 20px auto;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    display: flex; /* Используем flexbox */
-    flex-direction: column; /* Элементы располагаются вертикально */
-    align-items: center; /* Центрируем содержимое */
-    gap: 15px; /* Добавляем расстояние между изображением и видео */
-}
-
-/* Стили для изображений и видео */
-.media-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Центрируем */
-    gap: 15px; /* Зазор между изображением и видео */
-}
-
-.ad-card img,
-.ad-card .video-container video {
-    width: 100%;
-    max-width: 350px; /* Делаем их одинаковыми по размеру */
-    height: 200px; /* Фиксированная высота */
-    object-fit: cover;
-    border-radius: 10px;
-}
-        h1 {
-            margin-bottom: 20px;
+            width: 100%;
+            min-height: 200px;
+            background: url('{% static "images/banner.jpg" %}') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         }
 
-        /* Сообщения */
-        .messages {
-            list-style: none;
-            padding: 0;
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
-        
-        .messages li {
-            background: #d4edda;
-            color: #155724;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #c3e6cb;
+
+        .ad-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .ad-card {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 15px;
+            border-radius: 0;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 15px;
         }
         .right-btn {
     position: fixed;
@@ -127,92 +114,6 @@
     transition: transform 0.3s ease, background 0.3s ease;
 }
 
-/* Эффект при наведении */
-.floating-btn:hover {
-    transform: scale(1.1); /* Увеличение кнопки */
-}
-
-/* Эффект при наведении для правой кнопки */
-.right-btn:hover {
-    background: #218838; /* Цвет при наведении для правой кнопки */
-}
-
-/* Эффект при наведении для левой кнопки */
-.left-btn:hover {
-    background: #0056b3; /* Цвет при наведении для левой кнопки */
-}
-
-/* Скрываем текст на маленьких экранах */
-@media (max-width: 500px) {
-    .floating-btn {
-        padding: 12px;
-        font-size: 14px;
-        text-align: center;
-    }
-}
-
-
-        /* Кнопки */
-        .btn, .add-ad-btn {
-            display: inline-block;
-            padding: 10px 15px;
-            margin: 5px;
-            font-size: 16px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background 0.3s;
-        }
-
-        .add-ad-btn {
-            background: #28a745;
-            color: white;
-        }
-
-        .add-ad-btn:hover {
-            background: #218838;
-        }
-
-        .btn {
-            background: #007bff;
-            color: white;
-        }
-
-        .btn:hover {
-            background: #0056b3;
-        }
-
-        .logout-btn {
-            background: #dc3545;
-            color: white;
-        }
-
-        .logout-btn:hover {
-            background: #c82333;
-        }
-
-        /* Сетка объявлений */
-        .ad-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Центрируем объявления */
-    gap: 40px; /* Отступ между объявлениями */
-}
-
-.ad-card {
-    position: relative;
-    width: 100%;
-    max-width: 400px; /* Ограничение ширины */
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Центрируем содержимое */
-    text-align: center;
-    gap: 15px; /* Отступ между элементами внутри карточки */
-}
-
         .ad-card h3 {
             margin: 0;
             color: black;
@@ -230,165 +131,126 @@
             border-radius: 5px;
         }
 
-        /* Премиум-объявления */
-        .premium {
+        .video-container video {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .vip {
             border: 2px solid gold;
-            background-color: #fff8e1;
-            position: relative;
+            background-color:0;
         }
 
-        .ad-buttons {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            justify-content: center;
-            margin-top: 10px;
+        .vip-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-right: 40px solid transparent;
+            border-bottom: 40px solid transparent;
+            border-left: 40px solid gold;
         }
 
-        
+        .vip-label::after {
+            content: "VIP";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-180%, +50%) rotate(-45deg);
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
 
+        .popular-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-right: 40px solid transparent;
+            border-bottom: 40px solid transparent;
+            border-left: 40px solid blue;
+        }
 
-.vip-label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-right: 40px solid transparent;
-    border-bottom: 40px solid transparent;
-    border-left: 40px solid gold;
-}
-/* Текст внутри метки VIP */
-.vip-label::after {
-    content: "VIP";
-    position: absolute;
-    top: 50%; /* Центрируем по вертикали */
-    left: 50%; /* Центрируем по горизонтали */
-    transform: translate(-180%, +50%) rotate(-45deg); /* Центрируем и поворачиваем текст */
-    font-size: 12px; /* Размер шрифта */
-    font-weight: bold;
-    color: white; /* Белый цвет текста */
-    white-space: nowrap; /* Запрещаем перенос текста на новую строку */
-}
-/* Стили для контейнера объявления, если оно VIP */
-.vip {
-    border: 2px solid gold; /* Золотая рамка для VIP */
-    background-color: #fff8e1; /* Легкий фон для VIP */
-    position: relative; /* Для правильного позиционирования метки VIP */
-}
-.popular-label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-right: 40px solid transparent;
-    border-bottom: 40px solid transparent;
-    border-left: 40px solid blue; /* Синий цвет */
-}
-.popular-label::after { 
-    content: "pop";
-    position: absolute;
-    top: 50%; /* Центрируем по вертикали */
-    left: 50%; /* Центрируем по горизонтали */
-    transform: translate(-170%, +50%) rotate(-45deg); /* Центрируем и поворачиваем текст */
-    font-size: 12px; /* Размер шрифта */
-    font-weight: bold;
-    color: white; /* Белый цвет текста */
-    white-space: nowrap; /* Запрещаем перенос текста на новую строку */
-}
-/* Стандарт (Серый) */
-.standard-label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-right: 40px solid transparent;
-    border-bottom: 40px solid transparent;
-    border-left: 40px solid gray; /* Серый цвет */
-}
-.standard-label::after { 
-    content: "sta"; 
-    position: absolute;
-    top: 50%; /* Центрируем по вертикали */
-    left: 50%; /* Центрируем по горизонтали */
-    transform: translate(-200%, +50%) rotate(-45deg); /* Центрируем и поворачиваем текст */
-    font-size: 12px; /* Размер шрифта */
-    font-weight: bold;
-    color: white; /* Белый цвет текста */
-    white-space: nowrap; /* Запрещаем перенос текста на новую строку */
-}
-        
+        .popular-label::after {
+            content: "pop";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-170%, +50%) rotate(-45deg);
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .standard-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-right: 40px solid transparent;
+            border-bottom: 40px solid transparent;
+            border-left: 40px solid gray;
+        }
+
+        .standard-label::after {
+            content: "sta";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-200%, +50%) rotate(-45deg);
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
         .ad-link {
-    display: flex;
-    justify-content: center;
-    width: 100%; 
-    max-width: 600px; /* Ограничение ширины объявления */
-    text-decoration: none; /* Убираем подчеркивание */
-}
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
+            text-decoration: none;
+        }
 
-.ad-card {
-    width: 100%; 
-    text-align: center;
-    padding: 15px;
-    background: white;
-    border-radius: 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-}
+        .pagination {
+            margin-top: 20px;
+        }
 
-.ad-card:hover {
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-.ad-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.user-logo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.user-city {
-    font-size: 14px;
-    color: #777;
-}
+        .step-links a {
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
 
-    {% block title %}{{ category.name }}{% endblock %}
+{% block title %}{{ category.name }}{% endblock %}
 
-  
 <div class="banner">
     Вітаемо на сайті оголошень Браттія!
     На данному єтапі сайт працює в тестовому режимі.
-    Публіковати оголошення можуть тільки зареєстрованні користувачі.
+    Публіковати оголошення можуть тільки зареєстровані користувачі.
 </div>
+
 {% if not user.is_authenticated %}
     <!-- Кнопка регистрации для незарегистрированных пользователей -->
     <a href="{% url 'ads:register' %}" class="floating-btn register-btn">Регистрация</a>
 {% endif %}
-<a href="{% url 'ads:add_ad' %}" class="floating-btn  right-btn">+ оголошення</a>
+
+<a href="{% url 'ads:add_ad' %}" class="floating-btn right-btn">+ оголошення</a>
 <a href="{% url 'ads:categories' %}" class="floating-btn left-btn">Категории</a>
 
 <div class="ad-list">
     {% if page_obj %}
         {% for ad in page_obj %}
-            <!-- Обернули объявление в ссылку -->
             <a href="{% url 'ads:ad_detail' ad.id %}" class="ad-link">
                 <div class="ad-card {% if ad.is_premium and ad.premium_until %}vip{% endif %}">
-                    {% if ad.image %}
-                        <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
-                    {% endif %}
-                    
-
+                    {% for ad_image in ad.images.all %}
+                    <img src="{{ ad_image.image.url }}" alt="Image for {{ ad_image.ad.title }}">
+                    {% endfor %}
                     {% if ad.video %}
                         <div class="video-container">
                             <video controls>
@@ -397,7 +259,6 @@
                             </video>
                         </div>
                     {% endif %}
-                    
                     <h3>{{ ad.title }}</h3>
                     <p>Ціна: <strong>{{ ad.price }} грн.</strong></p>
                     <p>Опис: <strong>{{ ad.description }}</strong></p>
@@ -412,31 +273,30 @@
                         {% endif %}
                     </div>
                 </div>
-            </a> <!-- Закрываем ссылку -->
+            </a>
         {% endfor %}
     {% else %}
         <p>Объявлений пока нет.</p>
     {% endif %}
 </div>
 
-    <!-- Пагинация -->
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; Первая</a>
-                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
-            {% endif %}
+<!-- Пагинация -->
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+        {% endif %}
 
-            <span class="current">
-                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
-            {% endif %}
+        <span class="current">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
         </span>
-    </div>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+        {% endif %}
+    </span>
 </div>
 
 {% endblock %}

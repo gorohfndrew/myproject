@@ -129,12 +129,13 @@ img:not(.logo), .video-container video, .video-container iframe {
     <h1>{{ ad.title }}</h1>
     
     <!-- Отображение изображения -->
-    {% if ad.image %}
-        <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
-    {% else %}
-        <img src="{% static 'image/no-image.jpg' %}" alt="Нет фото">
-    {% endif %}
-    
+    <div class="ad-gallery">
+        {% for img in ad.images.all %}
+            <img src="{{ img.image.url }}" alt="{{ ad.title }}" class="img-thumbnail">
+        {% empty %}
+            <img src="{% static 'images/no-image.jpg' %}" alt="Нет фото" class="img-fluid">
+        {% endfor %}
+    </div>
     <!-- Отображение цены -->
     <p><strong>Ціна:</strong> {{ ad.price }} грн.</p>
     <p>Опис: <strong>{{ ad.description }}</strong></p>

@@ -78,18 +78,16 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 # Объявление
+
 class Ad(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='ads')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # ✅ Используем AUTH_USER_MODEL
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=255)
     description = models.TextField()
-
     price = models.CharField(max_length=10, default="Договірна")  
-    image = CloudinaryField('image', blank=True, null=True)
-    createdimage = models.ImageField(upload_to='ads/', blank=True, null=True)
     video = models.FileField(upload_to='ads_videos/', null=True, blank=True)
-    created_at = models.DateTimeField(default=timezone.now)  # Добавить поле created_at
+    created_at = models.DateTimeField(default=timezone.now)
 
     # Статусы объявления
     is_boosted = models.BooleanField(default=False)
@@ -107,7 +105,12 @@ class Ad(models.Model):
         return self.title
 
 
-# Админка для объявлений
+class AdImage(models.Model):    
+    ad = models.ForeignKey(Ad, on_delete=models.CASCADE, related_name="images")
+    image = CloudinaryField('image', blank=True, null=True)
+
+    def __str__(self):
+        return f"Image for {self.ad.title}"
 class AdAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'created_at', 'image_tag', 'video_tag', 'is_premium', 'is_premium_active', 'premium_until')
     list_filter = ('is_premium', 'is_boosted', 'is_standard', 'is_popular')

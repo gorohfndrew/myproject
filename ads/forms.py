@@ -2,6 +2,7 @@ from django import forms
 from .models import Ad, Category, CustomUser, Profile
 from django.core.exceptions import ValidationError
 from .models import CustomUser
+from .widgets import MultipleFileInput
 
 
 class RegistrationForm(forms.ModelForm):
@@ -63,32 +64,64 @@ class CategoryForm(forms.Form):
         empty_label="Выберите категорию"   # Это текст, который будет отображаться до выбора категории
     )
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        if data is None:
+            return []
+        if not isinstance(data, (list, tuple)):
+            data = [data]
+        result = []
+        for file in data:
+            super().clean(file, initial)
+            result.append(file)
+        return result
+
 class AdForm(forms.ModelForm):
+    images = MultipleFileField(
+        required=False,
+        label="Изображения",
+        help_text="Максимум 10 файлов"
+    )
+
     class Meta:
         model = Ad
-        fields = ['category', 'title', 'description', 'price', 'image', 'video', 'is_premium', 'premium_until', 'is_standard', 'is_popular', 'is_boosted']
+        fields = ['category', 'title', 'description', 'price', 'video', 'is_premium', 'premium_until', 'is_standard', 'is_popular', 'is_boosted']
         widgets = {
             'premium_until': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'description': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
-            'price': forms.TextInput(attrs={'value': 'Договореная'})  # ✅ Значение по умолчанию
+            'description': forms.Textarea(attrs={'rows': 4}),
+            'price': forms.TextInput(attrs={'placeholder': 'Договірна'})
         }
 
-    def clean_price(self):
-        price = self.cleaned_data.get('price')
+    def clean_images(self):
+        images = self.cleaned_data.get('images', [])
+        if len(images) > 10:
+            raise ValidationError("Можно загрузить не более 10 изображений.")
+        return images
 
-        if price == "Договірна":
-            return "Договірна"  # ✅ Возвращаем строку, а не None
-
-        try:
-            price = float(price)  # ✅ Преобразуем в число
-            if price <= 0:
-                raise forms.ValidationError("Цена должна быть больше нуля.")
-            return str(price)  # ✅ Возвращаем строку, так как price — CharField
-        except (ValueError, TypeError):
-            raise forms.ValidationError("Введите число или оставьте 'Договореная'.")
     def clean_video(self):
         video = self.cleaned_data.get('video')
         if video:
-            if not video.name.endswith('.mp4'):
-                raise forms.ValidationError("Разрешен только формат MP4 для видео.")
+            if not video.content_type.startswith('video/'):
+                raise ValidationError("Файл должен быть видео")
+            if video.size > 100 * 1024 * 1024:  # 100MB
+                raise ValidationError("Максимальный размер видео - 100MB")
         return video
+
+    def clean_price(self):
+        price = self.cleaned_data.get('price', '').strip()
+        if not price or price == "Договірна":
+            return "Договірна"
+        try:
+            price_value = float(price.replace(',', '.'))
+            if price_value <= 0:
+                raise ValidationError("Цена должна быть положительной")
+            return str(price_value)
+        except ValueError:
+            raise ValidationError("Введите корректное число")

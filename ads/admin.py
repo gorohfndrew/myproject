@@ -4,6 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import CustomUser, Profile, Category, Ad
 from django.contrib.admin import TabularInline
+from .models import Ad, AdImage
 
 
 
@@ -44,14 +45,18 @@ class AdAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'created_at', 'image_tag', 'video_tag', 'is_premium', 'is_premium_active', 'premium_until')
     list_filter = ('is_premium', 'is_boosted', 'is_standard', 'is_popular')
     search_fields = ('title', 'description')  
-    ordering = ('-created_at',)  
+    ordering = ('-created_at',)
 
+    # Измененный метод для отображения изображения из связанной модели AdImage
     def image_tag(self, obj):
-        if obj.image:
-            return mark_safe(f'<img src="{obj.image.url}" width="100px" />')
+        # Получаем изображение из связанной модели AdImage
+        ad_image = obj.images.first()  # Возвращает первое изображение для объявления (или None, если нет изображений)
+        if ad_image and ad_image.image:
+            return mark_safe(f'<img src="{ad_image.image.url}" width="100px" />')
         return '-'
     image_tag.short_description = "Изображение"
 
+    # Для отображения видео - оставляем так, как есть, если видео есть в модели Ad
     def video_tag(self, obj):
         """Отображает видео в админке."""
         if obj.video:
@@ -59,11 +64,11 @@ class AdAdmin(admin.ModelAdmin):
         return 'Нет видео'
     video_tag.short_description = "Видео"
 
+    # Статус активности премиума
     def is_premium_active(self, obj):
         """Проверка, активен ли статус премиум."""
         return obj.is_premium_active
     is_premium_active.short_description = 'Премиум активен'
-
 
 # Удаляем стандартную регистрацию User, чтобы использовать CustomUserAdmin
 

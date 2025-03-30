@@ -175,3 +175,4 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = f"https://res.cloudinary.com/{env('CLOUDINARY_CLOUD_NAME')}/"
 AUTH_USER_MODEL = 'ads.CustomUser'
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # Ограничение на 10MB для всех файлов

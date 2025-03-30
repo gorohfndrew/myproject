@@ -17,6 +17,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from .forms import CustomUserForm
+from .models import Ad, AdImage
 
 User = get_user_model()  # ✅ Определяем модель пользователя
 
@@ -61,31 +62,34 @@ class CategoryViewSet(viewsets.ModelViewSet):
 @login_required(login_url='/login/')
 def add_ad(request):
     if request.method == 'POST':
+        print(f"Данные запроса: {request.POST}")  
+        print(f"Файлы запроса: {request.FILES}")  
+
         form = AdForm(request.POST, request.FILES)
         if form.is_valid():
             ad = form.save(commit=False)
             ad.user = request.user
-            
-            # 🛠 Обрабатываем изображение
-            image_file = request.FILES.get('image')  
-            if image_file:
-                ad.image = image_file  # Сохраняем в Cloudinary
-            
-            # 🛠 Проверяем видео
+            ad.save()
+
+            # Получаем файлы правильно!
+            images = request.FILES.getlist('images')  # ✅ Вместо `cleaned_data.get`
+            print(f"Файлы получены: {images}")  
+
+            for image in images:
+                print(f"Сохраняем изображение: {image}")  
+                AdImage.objects.create(ad=ad, image=image)  # ✅ Без `.file`
+
+            # Проверяем видео
             video_file = request.FILES.get('video')
-            if video_file and video_file.size > 104857600:  # 100MB
+            if video_file and video_file.size > 104857600:  
                 form.add_error('video', 'Максимальный размер видео 100MB.')
             else:
-                ad.save()  # Теперь изображение точно сохранится!
                 return redirect('ads_list')
-            
 
     else:
         form = AdForm()
 
     return render(request, 'ads/add_ad.html', {'form': form})
-
-
 # Список объявлений с пагинацией
 def ads_list(request, category_slug=None):
     # Получаем категорию, если передан slug
