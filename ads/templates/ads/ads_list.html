@@ -299,6 +299,11 @@
                     <h3>{{ ad.title }}</h3>
                     <p>Ціна: <strong>{{ ad.price }} грн.</strong></p>
                     <p>Опис: <strong>{{ ad.description }}</strong></p>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ ad.city|default:"Місто не обрано" }}</span>
+                    </div>
+                    
 
                     <div class="ad-buttons">
                         {% if ad.is_premium and ad.premium_until %}

@@ -89,10 +89,14 @@ class AdForm(forms.ModelForm):
         label="Изображения",
         help_text="Максимум 10 файлов"
     )
-
+    city = forms.CharField(
+        label="Город",
+        widget=forms.TextInput(attrs={'placeholder': 'Например: Киев'}),
+        required=False
+    )
     class Meta:
         model = Ad
-        fields = ['category', 'title', 'description', 'price', 'video', 'is_premium', 'premium_until', 'is_standard', 'is_popular', 'is_boosted']
+        fields = ['category', 'title', 'description', 'price', 'video', 'is_premium', 'premium_until', 'is_standard', 'is_popular', 'is_boosted','city']
         widgets = {
             'premium_until': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'description': forms.Textarea(attrs={'rows': 4}),

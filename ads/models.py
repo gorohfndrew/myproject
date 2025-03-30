@@ -88,6 +88,7 @@ class Ad(models.Model):
     price = models.CharField(max_length=10, default="Договірна")  
     video = models.FileField(upload_to='ads_videos/', null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
+    city = models.CharField("Город", max_length=100, blank=True, null=True)
 
     # Статусы объявления
     is_boosted = models.BooleanField(default=False)
