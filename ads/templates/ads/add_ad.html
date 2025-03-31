@@ -14,6 +14,12 @@
             </ul>
         {% endif %}
 
+        {% if messages %}
+        {% for message in messages %}
+          <p style="color: red;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             
@@ -76,6 +82,7 @@
         </form>
 
         <a href="{% url 'ads_list' %}" class="back-btn">Назад до оголошень</a>
+       
         
     </div>
 {% endblock %}

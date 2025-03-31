@@ -18,6 +18,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from .forms import CustomUserForm
 from .models import Ad, AdImage
+from django.contrib import messages
 
 User = get_user_model()  # ✅ Определяем модель пользователя
 
@@ -58,7 +59,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
 
-# Добавление объявления (только для авторизованных пользователей)
 @login_required(login_url='/login/')
 def add_ad(request):
     if request.method == 'POST':
@@ -76,6 +76,11 @@ def add_ad(request):
             print(f"Файлы получены: {images}")  
 
             for image in images:
+                # ✅ Проверяем, является ли файл видео
+                if hasattr(image, 'content_type') and image.content_type.startswith('video/'):
+                    messages.error(request, "На даному етапі публікація відео не дозволена!")
+                    return render(request, 'ads/add_ad.html', {'form': form})
+
                 print(f"Сохраняем изображение: {image}")  
                 AdImage.objects.create(ad=ad, image=image)  # ✅ Без `.file`
 
