@@ -90,6 +90,9 @@ class Ad(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     city = models.CharField("Город", max_length=100, blank=True, null=True)
 
+    views_count = models.PositiveIntegerField(default=0)  # Новое поле
+
+
     # Статусы объявления
     is_boosted = models.BooleanField(default=False)
     is_standard = models.BooleanField(default=False)

@@ -19,6 +19,8 @@ from django.contrib.auth import get_user_model
 from .forms import CustomUserForm
 from .models import Ad, AdImage
 from django.contrib import messages
+from django.views.generic import DetailView
+import logging
 
 User = get_user_model()  # ✅ Определяем модель пользователя
 
@@ -48,10 +50,33 @@ class AdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
 
+    def retrieve(self, request, *args, **kwargs):
+        """ Увеличивает количество просмотров при каждом просмотре объявления. """
+        instance = self.get_object()
+        instance.views_count += 1
+        instance.save(update_fields=['views_count'])
+        return super().retrieve(request, *args, **kwargs)
+
 class AdsListView(ListView):
     model = Ad
     template_name = "ads/ads_list.html"  # Вкажіть правильний шлях до шаблону
     context_object_name = "ads"
+
+    def get_queryset(self):
+        """ Просто получаем все объявления без увеличения просмотров. """
+        return Ad.objects.all()
+
+class AdDetailView(DetailView):
+    model = Ad
+    template_name = "ads/ad_detail.html"  # Проверь правильность пути к шаблону
+
+    def get_object(self, queryset=None):       
+        """ Увеличивает количество просмотров при открытии объявления. """
+        ad = super().get_object(queryset)
+        
+        ad.views_count += 1
+        ad.save(update_fields=['views_count'])
+        return ad    
 
 # API для категорий
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -114,6 +139,8 @@ def ads_list(request, category_slug=None):
 
 def ad_detail(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
+    ad.views_count += 1
+    ad.save(update_fields=['views_count'])
     return render(request, 'ads/ad_detail.html', {'ad': ad})
 
 
