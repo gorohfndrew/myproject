@@ -6,15 +6,16 @@
     <h1>{{ ad.title }}</h1>
     
     <!-- Основной контейнер для изображения и метаданных -->
-    <div class="ad-card-header">
-        {% if ad.is_premium %}
-        <span class="vip-label"></span>
-    {% elif ad.is_popular %}
-        <span class="popular-label"></span>
-    {% else %}
-        <span class="standard-label"></span>
-    {% endif %}
-        
+    <div class="ad-buttons">
+        {% if ad.is_premium and ad.premium_until %}
+            <span class="vip-label"></span>
+        {% elif ad.is_popular %}
+            <span class="popular-label"></span>
+        {% else %}
+            <span class="standard-label"></span>
+        {% endif %}
+    
+
         <!-- Галерея изображений -->
         <div class="ad-gallery">
             {% for img in ad.images.all %}
@@ -72,6 +73,7 @@
         background: #f4f4f4;
     }
 
+
     .container {
         position: relative;
         max-width: 600px;
@@ -112,7 +114,7 @@
         border-radius: 0;
         margin-top: 20px;
         transition: background 0.3s;
-        background: #6c757d;
+        background:#6c757d;
     }
 
     .premium {
@@ -126,25 +128,11 @@
     .premium .btn:hover {
         background: #e6a800;
     }
-    .popular-label + .btn {
-    background: #007bff;
-}
-
-.popular-label + .btn:hover {
-    background: #0056b3;
-}
-
-/* 🔸 Стандартное объявление (Серая кнопка) */
-.standard-label + .btn {
-    background: #b0b0b0;
-}
-
-.standard-label + .btn:hover {
-    background: #8c8c8c;
-}
+    
+    
 
 
-
+    
     .ad-card-header {
         position: relative;
         margin-bottom: 10px;
@@ -157,7 +145,7 @@
         border-radius: 5px;
         margin: 0 auto;
     }
-
+    
     .ad-date {
         position: absolute;
         left: 15px;
@@ -179,6 +167,12 @@
         border-radius: 3px;
         z-index: 2;
     }
+    .ad-card .ad-date,
+.ad-card .ad-views {
+    font-size: 12px !important;
+    padding: 2px 6px; /* Уменьшаем отступы */
+}
+
 
     .vip-label {
         position: absolute;
@@ -232,5 +226,22 @@
     justify-content: center;
     gap: 5px;
 }
+.ad-card.popular .btn {
+    background: #007bff ;
+}
+
+.ad-card.popular .btn:hover {
+    background: #0056b3 ;
+}
+
+/* 🔸 Стандартное объявление (Серая кнопка) */
+.standard-label + .btn {
+    background: #b0b0b0;
+}
+
+.standard-label + .btn:hover {
+    background: #8c8c8c;
+}
+
 </style>
 {% endblock %}
