@@ -108,7 +108,6 @@
         border-radius: 10px;
     }
     
-
     .btn {
         display: inline-block;
         padding: 10px 15px;
@@ -119,6 +118,17 @@
         transition: background 0.3s;
         background:#6c757d;
     }
+    .popular .back-btn {
+    background-color: #007bff !important;
+    color: white !important;
+    border-radius: 4px !important;
+    padding: 10px 20px !important;
+    text-decoration: none !important;
+}
+
+.popular .back-btn:hover {
+    background-color: #0056b3 !important;
+}
 
     .premium {
         border: 2px solid gold;
@@ -186,11 +196,7 @@
         border-radius: 3px;
         z-index: 2;
     }
-    .ad-card .ad-date,
-.ad-card .ad-views {
-    font-size: 12px !important;
-    padding: 2px 6px; /* Уменьшаем отступы */
-}
+    
 
 
     .vip-label {
@@ -245,6 +251,13 @@
     justify-content: center;
     gap: 5px;
 }
+
+.container .ad-meta .ad-date,
+    .container .ad-meta .ad-views {
+        font-size: 12px !important;
+        color: #007bff;
+    }
+
 
 </style>
 {% endblock %}
