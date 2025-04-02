@@ -25,11 +25,26 @@
             text-decoration: none;
             color: #007bff;
         }
+        a.button {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 18px;
+    text-decoration: none;
+    color: white;
+    background-color: #007bff; /* Синий цвет */
+    border-radius: 5px; /* Скругленные углы */
+    text-align: center;
+    transition: background-color 0.3s ease; /* Плавный переход при наведении */
+}
+
+a.button:hover {
+    background-color: #0056b3; /* Темный синий при наведении */
+}
     </style>
 </head>
 <body>
     <h1>Вітаємо на сайті оголошень браттія,для того щоб додати публікації спочатку зареєструйтесь!!!</h1>
-    <p><a href="{% url 'register' %}">Реєстрація</a></p>
-    <p><a href="{% url 'home' %}">На головну</a></p>
+    <p><a href="{% url 'register' %}" class="button">Реєстрація</a></p>
+    <p><a href="{% url 'home' %}" class="button">На головну</a></p>
 </body>
 </html>
