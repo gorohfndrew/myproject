@@ -6,6 +6,7 @@ from django.contrib import admin
 from ads import views
 from ads.views import home
 from ads.views import register
+from ads.views import custom_login
 
 # API Router
 router = DefaultRouter()
@@ -20,7 +21,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),  # DRF авторизация
     path('ad/<int:ad_id>/', views.ad_detail, name='ad_detail'),
     path('', home, name='home'),
-     path('register/', register, name='register'),      # Пошук  
+    path('register/', register, name='register'),
+    path('login/', custom_login, name='login'),
+                  
 ]
     
 

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Зворотний зв’язок</h2>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 0;
+    }
+    h1 {
+        text-align: center;
+    }
+    .contact {
+        margin:  0;
+    }
+    .contact a {
+        display: inline-block;
+        margin: 10px;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: white;
+        background-color: #007bff;
+        border-radius: 5px;
+    }
+    
+</style>
+<div>
+    <p><strong>Email:</strong> <a href="mailto:example@gmail.com">example@gmail.com</a></p>
+    <p><strong>Телефон:</strong> <a href="tel:+380501234567">+380501234567</a></p>
+    <p>В робочі дні: 08:00 до 20:00</p>
+        <p>В вихідні: 09:00 до 19:00</p>
+    <p><strong>Telegram:</strong> <a href="https://t.me/username" target="_blank">@username</a></p>
+    <p><strong>WhatsApp:</strong> <a href="https://wa.me/380501234567" target="_blank">Написати в WhatsApp</a></p>
+</div>
+{% endblock %}

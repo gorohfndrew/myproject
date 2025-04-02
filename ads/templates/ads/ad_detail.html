@@ -4,6 +4,8 @@
 {% block content %}
 <div class="container {% if ad.is_premium %}premium{% endif %}">
     <h1>{{ ad.title }}</h1>
+
+    
     
     <!-- Основной контейнер для изображения и метаданных -->
     <div class="ad-buttons">
@@ -105,6 +107,7 @@
         height: auto;
         border-radius: 10px;
     }
+    
 
     .btn {
         display: inline-block;
@@ -128,6 +131,22 @@
     .premium .btn:hover {
         background: #e6a800;
     }
+    .popular .btn {
+    background: #007bff ;
+}
+
+.popular .btn:hover {
+    background: #0056b3 ;
+}
+
+/* 🔸 Стандартное объявление (Серая кнопка) */
+.standard-label + .btn {
+    background: #b0b0b0;
+}
+
+.standard-label + .btn:hover {
+    background: #8c8c8c;
+}
     
     
 
@@ -225,22 +244,6 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
-}
-.ad-card.popular .btn {
-    background: #007bff ;
-}
-
-.ad-card.popular .btn:hover {
-    background: #0056b3 ;
-}
-
-/* 🔸 Стандартное объявление (Серая кнопка) */
-.standard-label + .btn {
-    background: #b0b0b0;
-}
-
-.standard-label + .btn:hover {
-    background: #8c8c8c;
 }
 
 </style>

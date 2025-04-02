@@ -115,7 +115,6 @@ def add_ad(request):
                 form.add_error('video', 'Максимальный размер видео 100MB.')
             else:
                 return redirect('ads_list')
-
     else:
         form = AdForm()
 
@@ -251,3 +250,9 @@ def register(request):
 
 def home(request):
     return render(request, 'ads/home.html')
+
+def contact(request):
+    return render(request, "ads/contact.html")
+
+def custom_login(request):
+    return render(request, 'login.html', {'message': "Спочатку зареєструйтесь!"})
