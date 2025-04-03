@@ -113,6 +113,19 @@ LANGUAGES = [
     ('en', 'English'),
     ('uk', 'Українська'),
 ]
+SESSION_COOKIE_AGE = 157680000  # 5 лет в секундах (60*60*24*365*5)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Не очищать при закрытии браузера
+SESSION_SAVE_EVERY_REQUEST = True  # Обновлять срок при активности
+
+# Безопасность (обязательно для production)
+SESSION_COOKIE_SECURE = True  # Только HTTPS
+SESSION_COOKIE_HTTPONLY = True  # Защита от XSS
+CSRF_COOKIE_SECURE = True  # Для CSRF-токенов
+CSRF_COOKIE_AGE = SESSION_COOKIE_AGE  # Синхронизация сроков
+
+# Дополнительно (рекомендуется)
+SESSION_COOKIE_SAMESITE = 'Lax'  # Защита от CSRF
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 # Статические файлы
 STATIC_URL = '/static/'

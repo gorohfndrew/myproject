@@ -8,7 +8,8 @@ from ads.views import home
 from ads.views import register
 from ads.views import custom_login
 from django.contrib.auth.views import LogoutView
-from ads.views import login_redirect
+from ads.views import home, register, custom_login, auto_login 
+
 
 
 # API Router
@@ -27,9 +28,10 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', custom_login, name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('login/', login_redirect, name='login'),     
+    path('auto_login/', auto_login, name='auto_login'),
+]    
                   
-]
+
     
 
 

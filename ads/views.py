@@ -21,6 +21,8 @@ from .models import Ad, AdImage
 from django.contrib import messages
 from django.views.generic import DetailView
 import logging
+from django.http import HttpResponseRedirect  # Добавьте этот импорт в начало файла
+from django.urls import reverse
 
 User = get_user_model()  # ✅ Определяем модель пользователя
 
@@ -242,7 +244,9 @@ def register(request):
         if form.is_valid():
             user = form.save()  # Створення нового користувача
             login(request, user)  # Авторизація користувача після реєстрації
-            return redirect('ads_list')  # Перенаправлення на список оголошень
+            response = HttpResponseRedirect(reverse('ads_list'))  # 1. Создаем response
+            response.set_cookie('user_id', user.id, max_age=157680000)  # 2. Устанавливаем cookie
+            return response  # 3. Возвращаем response
     else:
         form = RegistrationForm()
 
@@ -259,6 +263,18 @@ def contact(request):
 
 def custom_login(request):
     return render(request, 'login.html', {'message': "Спочатку зареєструйтесь!"})
-def login_redirect(request):
-    """Просто перенаправляет на ads_list, если пользователь авторизован"""
-    return redirect('ads_list')
+def auto_login(request):
+    if request.user.is_authenticated:
+        return redirect('ads_list')
+    
+    # Проверяем cookies
+    user_id = request.COOKIES.get('user_id')
+    if user_id:
+        try:
+            user = User.objects.get(id=user_id)
+            login(request, user)
+            return redirect('ads_list')
+        except User.DoesNotExist:
+            pass
+    
+    return redirect('register')  # Если нет cookies - на регистрацию
