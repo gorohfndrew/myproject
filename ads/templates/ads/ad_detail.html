@@ -2,8 +2,9 @@
 {% load static %}
 
 {% block content %}
+<a href="{% url 'ads:ads_list' %}" class="ad-link">
 <div class="container {% if ad.is_premium %}premium{% endif %}">
-    <h1>{{ ad.title }}</h1>
+    
 
     
     
@@ -44,6 +45,7 @@
 
     <!-- Остальная информация -->
     <div class="ad-info">
+        <h1>{{ ad.title }}</h1>
         <p class="ad-price"><strong>Ціна:</strong> {{ ad.price }} грн.</p>
         <p class="ad-description">Опис: <strong>{{ ad.description }}</strong></p>
     </div>
@@ -118,17 +120,10 @@
         transition: background 0.3s;
         background:#6c757d;
     }
-    .popular .back-btn {
-    background-color: #007bff !important;
-    color: white !important;
-    border-radius: 4px !important;
-    padding: 10px 20px !important;
-    text-decoration: none !important;
+    .btn {
+    display: none;
 }
-
-.popular .back-btn:hover {
-    background-color: #0056b3 !important;
-}
+    
 
     .premium {
         border: 2px solid gold;
@@ -257,6 +252,12 @@
         font-size: 12px !important;
         color: #007bff;
     }
+    .ad-info h1,
+.ad-price,
+.ad-description {
+    color: black !important;
+}
+
 
 
 </style>
