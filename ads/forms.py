@@ -14,12 +14,12 @@ class RegistrationForm(forms.ModelForm):
     )
     
     password1 = forms.CharField(
-        label="Пароль",
+        label="Пороль",
         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"})
     )
     
     password2 = forms.CharField(
-        label="Підтвердження пароля",
+        label="Підтвердження пороля",
         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"})
     )
 
