@@ -17,7 +17,7 @@
         </form>
         
         <!-- Ссылка на вход -->
-      <p><a href="{% url 'auto_login' %}" class="button">Вхід в акунт користувача</a></p>
+      <p><a href="{% url 'auto_login' %}" class="blue-button">Вхід в акунт користувача</a></p>
 </body>
 </html>
     {% endif %}
@@ -90,19 +90,24 @@
             transform: scale(0.95);
         }
         .blue-button {
-    background-color: #1e88e5;  /* Красивый синий цвет */
+    /* Основной стиль */
+    background-color: #1E90FF;  /* Яркий синий */
     color: white;
     padding: 10px 20px;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 5px;
     border: none;
-    cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    
+    /* Простое затемнение при наведении */
+    transition: background-color 0.2s;
 }
 
 .blue-button:hover {
-    background-color: #1565c0;  /* Темнее при наведении */
+    background-color: #187bcd;  /* Темнее на 10% */
 }
     </style>
 {% endblock %}
