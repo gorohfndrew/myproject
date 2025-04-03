@@ -111,6 +111,7 @@ USE_TZ = True
 LANGUAGES = [
     ('ru', 'Russian'),
     ('en', 'English'),
+    ('uk', 'Українська'),
 ]
 
 # Статические файлы
@@ -176,3 +177,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = f"https://res.cloudinary.com/{env('CLOUDINARY_CLOUD_NAME')}/"
 AUTH_USER_MODEL = 'ads.CustomUser'
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # Ограничение на 10MB для всех файлов
+LOGOUT_REDIRECT_URL = 'login'
