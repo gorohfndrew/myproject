@@ -7,6 +7,8 @@ from ads import views
 from ads.views import home
 from ads.views import register
 from ads.views import custom_login
+from django.contrib.auth.views import LogoutView
+
 
 # API Router
 router = DefaultRouter()
@@ -23,6 +25,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('register/', register, name='register'),
     path('login/', custom_login, name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),  # Выход 
                   
 ]
     

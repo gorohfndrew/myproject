@@ -164,7 +164,15 @@ a:hover {
         <input type="text" name="q" placeholder="Пошук по сайту..." required>
         <button type="submit"><i class="fa-solid fa-search"></i> Пошук</button>
     </form>
-</li>  
+</li> 
+{% if user.is_authenticated %}
+                    <li>
+                        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="logout-button">Вийти</button>
+                        </form>
+                    </li>
+                    {% endif %}
 
 </ul>
 </nav>
