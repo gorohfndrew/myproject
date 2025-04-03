@@ -45,12 +45,8 @@ a.button:hover {
 <body>
     <h1>Вітаємо на сайті оголошень браттія,для того щоб додати публікації спочатку зареєструйтесь!!!</h1>
     <div class="buttons-container">
-        {% if user.is_authenticated %}
-            <p>Ви вже авторизовані як {{ user.username }}!</p>
-            <a href="{% url 'ads_list' %}" class="button">До оголошень</a>
-        {% else %}
-            <p>Для додавання публікацій необхідно авторизуватись</p>
-            <a href="{% url 'register' %}" class="button">Реєстрація</a>
-            <a href="{% url 'login' %}" class="button secondary">Увійти</a>
-            <a href="{% url 'ads_list' %}" class="button">Переглянути оголошення</a>
-        {% endif %}
+        <p><a href="{% url 'register' %}" class="button">Реєстрація</a></p>
+    <p><a href="{% url 'home' %}" class="button">На головну</a></p>
+</body>
+</html>
+    

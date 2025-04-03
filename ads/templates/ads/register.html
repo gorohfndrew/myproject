@@ -17,7 +17,9 @@
         </form>
         
         <!-- Ссылка на вход -->
-        <p>Вже маєте акаунт? <a href="{% url 'login' %}">Увійти</a></p>
+      <p><a href="{% url 'ads_list' %}" class="button secondary">Увійти</a></p>
+</body>
+</html>
     {% endif %}
     
     <p><a href="{% url 'ads_list' %}">Перейти до списку оголошень</a></p>

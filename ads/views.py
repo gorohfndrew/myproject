@@ -249,6 +249,9 @@ def register(request):
     return render(request, 'ads/register.html', {'form': form})
 
 def home(request):
+    # Если пользователь авторизован - перенаправляем на ads_list
+    if request.user.is_authenticated:
+        return redirect('ads_list')
     return render(request, 'ads/home.html')
 
 def contact(request):
@@ -256,3 +259,6 @@ def contact(request):
 
 def custom_login(request):
     return render(request, 'login.html', {'message': "Спочатку зареєструйтесь!"})
+def login_redirect(request):
+    """Просто перенаправляет на ads_list, если пользователь авторизован"""
+    return redirect('ads_list')
