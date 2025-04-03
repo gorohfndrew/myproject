@@ -8,7 +8,7 @@
     <div class="register-container">
         {% if user.is_authenticated %}
         <!-- Если пользователь уже авторизован, показываем ссылку на главную -->
-        <p>Ви вже авторизовані! <a href="{% url 'register' %}">Перейти на головну</a></p> 
+        <p>Ви вже авторизовані! <a href="{%  url 'ads_list' %}">Перейти на головну</a></p> 
     {% else %}
         <h2>Реєстрація</h2>
         <form method="post" action="{% url 'register' %}">
