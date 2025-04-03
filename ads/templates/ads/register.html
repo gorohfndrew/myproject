@@ -9,7 +9,7 @@
         {% if user.is_authenticated %}
         <!-- Если пользователь уже авторизован, показываем ссылку на главную -->
         <p>Ви вже авторизовані! <a href="{%  url 'ads_list' %}">Перейти на головну</a></p> 
-    {% else %}
+        {% endif %}
         <h2>Реєстрація</h2>
         <form method="post" action="{% url 'register' %}">
             {% csrf_token %}
