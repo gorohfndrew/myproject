@@ -146,13 +146,9 @@ a:hover {
 }
 .blue-button {
     display: block;
-    width: calc(100vw - 20px); /* Уменьшаем на 40px (по 20px с каждой стороны) */
-    max-width: 800px; /* Ограничиваем максимальную ширину */
-    margin-left: calc(-50vw + 50%); /* Более точное центрирование */
-    left: 50%;
-    position: relative;
-    transform: translateX(-50%); /* Современный способ центрирования */
-    border-radius: 6px; /* Возвращаем скругления */
+    width: 100%; /* Занимает всю доступную ширину */
+    max-width: 800px; /* Максимальная ширина */
+    margin: 0 auto; /* Автоматические отступы для центрирования */
     padding: 12px 25px;
     background-color: #1E90FF;
     color: white;
@@ -161,9 +157,24 @@ a:hover {
     font-weight: bold;
     border: none;
     cursor: pointer;
+    border-radius: 6px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
     box-sizing: border-box;
+    
+    /* Убираем сложные трансформации */
+    position: static;
+    transform: none;
+    left: auto;
+    margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .blue-button {
+        width: calc(100% - 40px); /* Отступы по 20px с каждой стороны */
+        max-width: 100%; /* На мобильных можно занять всю ширину */
+        margin: 0 20px; /* Равномерные отступы */
+    }
 }
 
 .blue-button:hover {
