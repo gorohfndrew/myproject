@@ -17,12 +17,12 @@
         </form>
         
         <!-- Ссылка на вход -->
-      <p><a href="{% url 'auto_login' %}" class="blue-button">Вхід в акунт користувача</a></p>
+      <p><a href="{% url 'auto_login' %}" class="blue-button">Вхід в акунт зареєстрованого користувача</a></p>
 </body>
 </html>
     {% endif %}
     
-    <p><a href="{% url 'ads_list' %}">Перейти до списку оголошень</a></p>
+    <p><a href="{% url 'ads_list' %}"></a></p>
 </div>
 {% endblock %}
 {% block custom_styles %}
@@ -89,25 +89,6 @@
         button:active {
             transform: scale(0.95);
         }
-        .blue-button {
-    /* Основной стиль */
-    background-color: #1E90FF;  /* Яркий синий */
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-    font-weight: bold;
-    display: inline-block;
-    cursor: pointer;
-    
-    /* Простое затемнение при наведении */
-    transition: background-color 0.2s;
-}
-
-.blue-button:hover {
-    background-color: #187bcd;  /* Темнее на 10% */
-}
+        
     </style>
 {% endblock %}
