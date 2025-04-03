@@ -5,22 +5,23 @@
 {% endblock %}
 
 {% block content %}
-    <div class="register-container">
-        {% if user.is_authenticated %}
-        <!-- Если пользователь уже авторизован, показываем ссылку на главную -->
-        <p>Ви вже авторизовані! <a href="{%  url 'ads_list' %}">Перейти на головну</a></p> 
-        {% endif %}
+<div class="register-container">
+    {% if user.is_authenticated %}
+        <p>Ви вже авторизовані! <a href="{% url 'ads_list' %}">Перейти на головну</a></p>
+    {% else %}
         <h2>Реєстрація</h2>
         <form method="post" action="{% url 'register' %}">
             {% csrf_token %}
-            
-            {{ form.as_p }}  <!-- Это отрисует все поля формы -->
-
+            {{ form.as_p }}
             <button type="submit">Зареєструватися</button>
         </form>
-
-        <p><a href="{% url 'ads_list' %}">Перейти до списку оголошень</a></p>
-    </div>
+        
+        <!-- Ссылка на вход -->
+        <p>Вже маєте акаунт? <a href="{% url 'login' %}">Увійти</a></p>
+    {% endif %}
+    
+    <p><a href="{% url 'ads_list' %}">Перейти до списку оголошень</a></p>
+</div>
 {% endblock %}
 {% block custom_styles %}
     <style>
