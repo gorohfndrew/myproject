@@ -103,6 +103,11 @@ form button {
     font-size: 18px;
     transition: background-color 0.3s;
 }
+form button {
+    display: block;
+    margin-left: 0;
+}
+
 
 form button:hover {
     background-color: #45a049;
@@ -204,13 +209,15 @@ a:hover {
     </form>
 </li> 
 {% if user.is_authenticated %}
-                    <li>
-                        <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="logout-button">Вийти</button>
-                        </form>
-                    </li>
-                    {% endif %}
+<li>
+    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="logout-button">
+            <i class="fas fa-door-open"></i> Вихід
+        </button>
+    </form>
+</li>
+{% endif %}
 
 </ul>
 </nav>
