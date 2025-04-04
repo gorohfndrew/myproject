@@ -8,20 +8,23 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings')
 
 app = Celery('myproject')
 
-# Настройка PostgreSQL как брокер
+# Чтение значений из переменных окружения
+broker_url = os.getenv('CELERY_BROKER_URL')
+result_backend = os.getenv('CELERY_RESULT_BACKEND')
+
+# Настройка PostgreSQL как брокер и для хранения результатов
 app.conf.update(
-    broker_url='postgresql://your_user:your_password@localhost/your_db',
-    result_backend='postgresql://your_user:your_password@localhost/your_db',
+    broker_url=broker_url,
+    result_backend=result_backend,
 )
 
+# Настройка Celery с использованием параметров из Django settings
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
+# Автоматическое обнаружение задач
 app.autodiscover_tasks()
-app.conf.update(
-    CELERY_RESULT_BACKEND=f'postgresql://{os.getenv("DATABASE_URL")}'
-)
 
-# Подключение к Django
+# Сигнал для оповещения, когда worker готов
 @worker_ready.connect
 def worker_ready_handler(sender=None, **kwargs):
     print("Celery worker is ready!")

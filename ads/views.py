@@ -23,6 +23,7 @@ from django.views.generic import DetailView
 import logging
 from django.http import HttpResponseRedirect  # Добавьте этот импорт в начало файла
 from django.urls import reverse
+from django.db.models import F
 
 User = get_user_model()  # ✅ Определяем модель пользователя
 
@@ -33,7 +34,7 @@ class UserListView(ListView):
     model = CustomUser
     template_name = "ads/user_list.html"
     context_object_name = "users"
-    paginate_by = 10
+    paginate_by = 20
 
 
 # Регистрация пользователейclass RegisterView(CreateView):
@@ -63,11 +64,15 @@ class AdsListView(ListView):
     model = Ad
     template_name = "ads/ads_list.html"  # Вкажіть правильний шлях до шаблону
     context_object_name = "ads"
+    paginate_by = 20  
 
     def get_queryset(self):
         """ Просто получаем все объявления без увеличения просмотров. """
-        return Ad.objects.all()
-
+        return Ad.objects.all().order_by(
+    F('is_premium').desc(nulls_last=True),   # Сначала премиум
+    F('is_popular').desc(nulls_last=True),   # Потом популярные
+    '-views_count'  # Потом по количеству просмотров
+)
 class AdDetailView(DetailView):
     model = Ad
     template_name = "ads/ad_detail.html"  # Проверь правильность пути к шаблону
@@ -129,10 +134,17 @@ def ads_list(request, category_slug=None):
         category = Category.objects.filter(slug=category_slug).first() # Используем .first(), чтобы избежать ошибки, если категория не найдена
         ads = Ad.objects.filter(category=category)
     else:
-        ads = Ad.objects.all()
+         ads = Ad.objects.all()
+         
+
+         ads = ads.order_by(
+        F('is_premium').desc(nulls_last=True),   # Сначала премиум
+        F('is_popular').desc(nulls_last=True),   # Потом популярные
+        '-views_count'  # Потом по количеству просмотров
+    )
 
     # Пагинация
-    paginator = Paginator(ads, 10)  # По 10 объявлений на странице
+    paginator = Paginator(ads, 20)  
     page_number = request.GET.get('page')  # Получаем номер страницы из GET параметра
     page_obj = paginator.get_page(page_number)
 
@@ -217,7 +229,7 @@ def search_view(request):
         category = get_object_or_404(Category, slug=category_slug)
         results = results.filter(category=category)
 
-    paginator = Paginator(results, 10)
+    paginator = Paginator(results, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

@@ -7,6 +7,7 @@ import environ
 import dj_database_url
 import logging
 from pathlib import Path
+from celery.schedules import crontab
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_celery_results',
+    'django_celery_beat',
     'django_extensions',
     'rest_framework',
     'phonenumber_field',
@@ -149,6 +151,13 @@ CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='sqla+postgresql://username
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND', default='django-db')
 CELERY_ACCEPT_CONTENT = env.list('CELERY_ACCEPT_CONTENT', default=['json'])
 CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER', default='json')
+
+CELERY_BEAT_SCHEDULE = {
+    'remove-expired-ads': {
+        'task': 'ads.tasks.remove_expired_ads',
+        'schedule': crontab(minute=0, hour=0),  # Запуск каждый день в полночь
+    },
+}
 
 # Максимальный размер загружаемых файлов
 DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100 MB
