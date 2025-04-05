@@ -345,7 +345,7 @@
     {% if page_obj %}
         {% for ad in page_obj %}
             <a href="{% url 'ads:ad_detail' ad.id %}" class="ad-link">
-                <div class="ad-card {% if ad.is_premium and ad.premium_until %}vip{% endif %}"> 
+                <div class="ad-card {% if ad.is_premium %}vip{% endif %}"> 
                     <div class="swiper mySwiper">  <!-- Контейнер -->
                         <div class="swiper-wrapper">
                             {% for ad_image in ad.images.all %}
@@ -379,7 +379,7 @@
                     
                 
                     <div class="ad-buttons">
-                        {% if ad.is_premium and ad.premium_until %}
+                        {% if ad.is_premium %}
                             <span class="vip-label"></span>
                         {% elif ad.is_popular %}
                             <span class="popular-label"></span>

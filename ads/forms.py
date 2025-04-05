@@ -5,6 +5,7 @@ from .models import CustomUser
 from .widgets import MultipleFileInput
 
 
+
 class RegistrationForm(forms.ModelForm):
     phone_number = forms.CharField(
         max_length=20,
@@ -96,12 +97,28 @@ class AdForm(forms.ModelForm):
     )
     class Meta:
         model = Ad
-        fields = ['category', 'title', 'description', 'price', 'video', 'is_premium', 'premium_until', 'is_standard', 'is_popular', 'is_boosted','city']
+        fields = ['category', 'title', 'description', 'price', 'video', 'is_premium', 'is_standard', 'is_popular', 'is_boosted','city']
         widgets = {
             'premium_until': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'description': forms.Textarea(attrs={'rows': 4}),
             'price': forms.TextInput(attrs={'placeholder': 'Договірна'})
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Убираем поле 'premium_until' из формы, так как теперь оно не нужно
+        if 'premium_until' in self.fields:
+            del self.fields['premium_until']  # Убираем поле премиум
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        # Если 'is_premium' выбран, очищаем поле 'premium_until' (если оно все еще передано)
+        if cleaned_data.get('is_premium'):
+            cleaned_data['premium_until'] = None  # Очистим поле premium_until, оно не должно быть использовано
+
+        return cleaned_data
 
     def clean_images(self):
         images = self.cleaned_data.get('images', [])

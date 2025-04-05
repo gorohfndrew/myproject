@@ -10,7 +10,7 @@
     
     <!-- Основной контейнер для изображения и метаданных -->
     <div class="ad-buttons">
-        {% if ad.is_premium and ad.premium_until %}
+        {% if ad.is_premium %}
             <span class="vip-label"></span>
         {% elif ad.is_popular %}
             <span class="popular-label"></span>

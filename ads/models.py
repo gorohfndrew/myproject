@@ -98,12 +98,13 @@ class Ad(models.Model):
     is_standard = models.BooleanField(default=False)
     is_popular = models.BooleanField(default=False)
     is_premium = models.BooleanField(default=False)
-    premium_until = models.DateTimeField(null=True, blank=True)
+   
 
     @property
     def is_premium_active(self):
         """Проверяет, активен ли статус премиум."""
-        return bool(self.premium_until and self.premium_until > timezone.now())
+        return self.is_premium
+
 
     def __str__(self):
         return self.title

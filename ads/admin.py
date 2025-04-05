@@ -42,7 +42,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 # Админка для работы с объявлениями
 class AdAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'created_at', 'image_tag', 'video_tag', 'is_premium', 'is_premium_active', 'premium_until')
+    list_display = ('title', 'price', 'created_at', 'image_tag', 'video_tag', 'is_premium', 'is_premium_active')
     list_filter = ('is_premium', 'is_boosted', 'is_standard', 'is_popular')
     search_fields = ('title', 'description')  
     ordering = ('-created_at',)
